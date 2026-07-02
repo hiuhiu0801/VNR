@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,23 +12,10 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-const firestoreDatabaseId = import.meta.env.VITE_FIREBASE_FIRESTORE_DATABASE_ID;
-
-const missingConfig = Object.entries(firebaseConfig)
-  .filter(([key, value]) => key !== "measurementId" && !value)
-  .map(([key]) => key);
-
-if (missingConfig.length > 0) {
-  throw new Error(
-    `Thiếu cấu hình Firebase: ${missingConfig.join(", ")}. Hãy kiểm tra file .env.local hoặc .env.`
-  );
-}
-
 const app = initializeApp(firebaseConfig);
+
 export const auth = getAuth(app);
-export const db = firestoreDatabaseId
-  ? getFirestore(app, firestoreDatabaseId)
-  : getFirestore(app);
-export const storage = getStorage(app);
+export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
+
 googleProvider.setCustomParameters({ prompt: "select_account" });

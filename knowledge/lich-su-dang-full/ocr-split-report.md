@@ -1,0 +1,94 @@
+# OCR split report
+
+- Source txt: `C:\Users\LENOVO\Downloads\gt-lich-su-dang-csvn-ban-tuyen-giao-tw.ocr.txt`
+- Output dir: `C:\Users\LENOVO\Desktop\GitHub\VNR\knowledge\lich-su-dang-full`
+- OCR pages with text: 219
+- Markdown chunks: 83
+- Cleaned OCR characters inside chunks: 609101
+- Source preservation check: PASS (219/219 pages)
+
+## Generated files
+
+- `textbook-001-bia-va-muc-luc.md` - pages 1-2 - 688 chars
+- `textbook-002-chuong-nhap-mon-doi-tuong-chuc-nang-nhiem-vu-noi-dung-va-phuong-phap-ngh.md` - pages 3 - 2221 chars
+- `textbook-003-i-doi-tuong-nghien-cuu-cua-mon-hoc-lich-su-dang-cong-san-viet-nam.md` - pages 4-5 - 5436 chars
+- `textbook-004-ii-chuc-nang-nhiem-vu-cua-mon-hoc-lich-su-dang-cong-san-viet-nam.md` - pages 6-8 - 8469 chars
+- `textbook-005-iii-phuong-phap-nghien-cuu-hoc-tap-mon-hoc-lich-su-dang-cong-san-viet.md` - pages 9-11 - 8161 chars
+- `textbook-006-2-cac-phuong-phap-cu-the.md` - pages 12-14 - 8756 chars
+- `textbook-007-i-dang-cong-san-viet-nam-ra-doi-va-cuong-linh-chinh-tri-dau-tien-cua-dan.md` - pages 15-17 - 7346 chars
+- `textbook-008-1-boi-canh-lich-su.md` - pages 18-20 - 8197 chars
+- `textbook-009-1-boi-canh-lich-su.md` - pages 21-23 - 8688 chars
+- `textbook-010-2-nguyen-ai-quoc-chuan-bi-cac-dieu-kien-de-thanh-lap-dang.md` - pages 24-26 - 8241 chars
+- `textbook-011-3-thanh-lap-dang-cong-san-viet-nam-va-cuong-linh-chinh-tri-dau-tien-cua.md` - pages 27-29 - 7914 chars
+- `textbook-012-4-dinh-ke-hoach-thuc-hien-viec-thong-nhat-trong-nuoc.md` - pages 30-31 - 5787 chars
+- `textbook-013-ii-lanh-dao-qua-trinh-dau-tranh-gianh-chinh-quyen-1930-1945.md` - pages 32-34 - 8537 chars
+- `textbook-014-1-phong-trao-cach-mang-1930-1931-va-khoi-phuc-phong-trao-1932-1935.md` - pages 35-37 - 7686 chars
+- `textbook-015-1-phong-trao-cach-mang-1930-1931-va-khoi-phuc-phong-trao-1932-1935.md` - pages 38-40 - 8453 chars
+- `textbook-016-2-phong-trao-dan-chu-1936-1939.md` - pages 41-43 - 8063 chars
+- `textbook-017-3-phong-trao-giai-phong-dan-toc-1939-1945.md` - pages 44-46 - 8585 chars
+- `textbook-018-3-phong-trao-giai-phong-dan-toc-1939-1945.md` - pages 47-49 - 7608 chars
+- `textbook-019-3-phong-trao-giai-phong-dan-toc-1939-1945.md` - pages 50-52 - 7763 chars
+- `textbook-020-3-phong-trao-giai-phong-dan-toc-1939-1945.md` - pages 53-55 - 7989 chars
+- `textbook-021-3-phong-trao-giai-phong-dan-toc-1939-1945.md` - pages 56-58 - 7245 chars
+- `textbook-022-4-tinh-chat-y-nghia-va-kinh-nghiem-cua-cach-mang-thang-tam-nam-1945.md` - pages 59 - 2384 chars
+- `textbook-023-noi-dung-on-tap-va-thao-luan.md` - pages 60 - 2679 chars
+- `textbook-024-i-lanh-dao-xay-dung-bao-ve-chinh-quyen-cach-mang-khang-chien-chong-thuc.md` - pages 61-63 - 7103 chars
+- `textbook-025-1-xay-dung-va-bao-ve-chinh-quyen-cach-mang-1945-1946.md` - pages 64-66 - 8657 chars
+- `textbook-026-1-xay-dung-va-bao-ve-chinh-quyen-cach-mang-1945-1946.md` - pages 67-68 - 6111 chars
+- `textbook-027-1-xay-dung-va-bao-ve-chinh-quyen-cach-mang-1945-1946.md` - pages 69-71 - 8817 chars
+- `textbook-028-2-duong-loi-khang-chien-toan-quoc-va-qua-trinh-to-chuc-thuc-hien-tu-nam.md` - pages 72-74 - 8353 chars
+- `textbook-029-2-duong-loi-khang-chien-toan-quoc-va-qua-trinh-to-chuc-thuc-hien-tu-nam.md` - pages 75-77 - 8684 chars
+- `textbook-030-3-day-manh-cuoc-khang-chien-den-thang-loi-1951-1954.md` - pages 78-80 - 8658 chars
+- `textbook-031-3-day-manh-cuoc-khang-chien-den-thang-loi-1951-1954.md` - pages 81-83 - 8985 chars
+- `textbook-032-3-day-manh-cuoc-khang-chien-den-thang-loi-1951-1954.md` - pages 84-86 - 8378 chars
+- `textbook-033-ii-lanh-dao-xay-dung-chu-nghia-xa-hoi-o-mien-bac-va-khang-chien-chong-de.md` - pages 87-89 - 8292 chars
+- `textbook-034-1-su-lanh-dao-cua-dang-doi-voi-cach-mang-hai-mien-nam-bac-1954-1965.md` - pages 90-92 - 8794 chars
+- `textbook-035-1-su-lanh-dao-cua-dang-doi-voi-cach-mang-hai-mien-nam-bac-1954-1965.md` - pages 93-95 - 8194 chars
+- `textbook-036-1-su-lanh-dao-cua-dang-doi-voi-cach-mang-hai-mien-nam-bac-1954-1965.md` - pages 96-98 - 8422 chars
+- `textbook-037-1-su-lanh-dao-cua-dang-doi-voi-cach-mang-hai-mien-nam-bac-1954-1965.md` - pages 99-101 - 8124 chars
+- `textbook-038-2-lanh-dao-cach-mang-ca-nuoc-1965-1975.md` - pages 102-104 - 8333 chars
+- `textbook-039-2-lanh-dao-cach-mang-ca-nuoc-1965-1975.md` - pages 105-107 - 8707 chars
+- `textbook-040-2-lanh-dao-cach-mang-ca-nuoc-1965-1975.md` - pages 108-110 - 8363 chars
+- `textbook-041-2-lanh-dao-cach-mang-ca-nuoc-1965-1975.md` - pages 111-113 - 8448 chars
+- `textbook-042-2-lanh-dao-cach-mang-ca-nuoc-1965-1975.md` - pages 114 - 2705 chars
+- `textbook-043-noi-dung-on-tap-va-thao-luan.md` - pages 115 - 2378 chars
+- `textbook-044-muc-tieu.md` - pages 116 - 1326 chars
+- `textbook-045-i-lanh-dao-ca-nuoc-xay-dung-chu-nghia-xa-hoi-va-bao-ve-to-quoc-1975-1986.md` - pages 117-119 - 8371 chars
+- `textbook-046-1-xay-dung-chu-nghia-xa-hoi-va-bao-ve-to-quoc-1975-1981.md` - pages 120-122 - 8580 chars
+- `textbook-047-1-xay-dung-chu-nghia-xa-hoi-va-bao-ve-to-quoc-1975-1981.md` - pages 123-125 - 8535 chars
+- `textbook-048-2-dai-hoi-dai-bieu-toan-quoc-lan-thu-v-cua-dang-va-cac-buoc-dot-pha-tiep.md` - pages 126-127 - 5930 chars
+- `textbook-049-ii-lanh-dao-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-h.md` - pages 128-130 - 8291 chars
+- `textbook-050-1-doi-moi-toan-dien-dua-dat-nuoc-ra-khoi-khung-hoang-kinh-te-xa-hoi-1986.md` - pages 131-133 - 8610 chars
+- `textbook-051-1-doi-moi-toan-dien-dua-dat-nuoc-ra-khoi-khung-hoang-kinh-te-xa-hoi-1986.md` - pages 134-136 - 8652 chars
+- `textbook-052-1-doi-moi-toan-dien-dua-dat-nuoc-ra-khoi-khung-hoang-kinh-te-xa-hoi-1986.md` - pages 137-139 - 8532 chars
+- `textbook-053-1-doi-moi-toan-dien-dua-dat-nuoc-ra-khoi-khung-hoang-kinh-te-xa-hoi-1986.md` - pages 140-142 - 8720 chars
+- `textbook-054-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 143-144 - 5991 chars
+- `textbook-055-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 145-147 - 8807 chars
+- `textbook-056-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 148-150 - 8567 chars
+- `textbook-057-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 151-152 - 5970 chars
+- `textbook-058-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 153-154 - 5984 chars
+- `textbook-059-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 155-157 - 8814 chars
+- `textbook-060-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 158-159 - 6254 chars
+- `textbook-061-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 160-161 - 6132 chars
+- `textbook-062-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 162-163 - 6215 chars
+- `textbook-063-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 164-165 - 6262 chars
+- `textbook-064-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 166-168 - 8980 chars
+- `textbook-065-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 169-171 - 8237 chars
+- `textbook-066-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 172-174 - 8633 chars
+- `textbook-067-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 175-177 - 8758 chars
+- `textbook-068-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 178-179 - 6116 chars
+- `textbook-069-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 180-181 - 6108 chars
+- `textbook-070-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 182-183 - 6153 chars
+- `textbook-071-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 184-186 - 8932 chars
+- `textbook-072-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 187-189 - 8847 chars
+- `textbook-073-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 190-192 - 8963 chars
+- `textbook-074-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 193-195 - 8621 chars
+- `textbook-075-2-tiep-tuc-cong-cuoc-doi-moi-day-manh-cong-nghiep-hoa-hien-dai-hoa-va-ho.md` - pages 196-198 - 8929 chars
+- `textbook-076-3-thanh-tuu-kinh-nghiem-cua-cong-cuoc-doi-moi.md` - pages 199-201 - 8657 chars
+- `textbook-077-3-thanh-tuu-kinh-nghiem-cua-cong-cuoc-doi-moi.md` - pages 202-204 - 8029 chars
+- `textbook-078-ket-luan.md` - pages 205-207 - 7432 chars
+- `textbook-079-ket-luan.md` - pages 208-210 - 8845 chars
+- `textbook-080-ket-luan.md` - pages 211-213 - 8545 chars
+- `textbook-081-2-su-nghiep-cach-mang-la-cua-nhan-dan-do-nhan-dan-va-vi-nhan-dan.md` - pages 214-216 - 8580 chars
+- `textbook-082-5-su-lanh-dao-dung-dan-cua-dang-la-nhan-to-hang-dau-quyet-dinh-thang-loi.md` - pages 217 - 2811 chars
+- `textbook-083-tai-lieu-chu-yeu-su-dung-trong-bien-soan-giao-trinh.md` - pages 218-219 - 2980 chars

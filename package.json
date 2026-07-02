@@ -9,6 +9,10 @@
     "preview": "vite preview",
     "prepare:hcm-chapter3": "python scripts/prepare-hcm-textbook-ocr.py",
     "prepare:hcm-full": "python scripts/prepare-hcm-full-textbook-ocr.py",
+    "prepare:august1945": "python scripts/prepare-august-1945-ocr.py",
+    "prepare:lsd-full": "python scripts/prepare-lsd-full-textbook-md.py",
+    "upload:august1945-knowledge": "node scripts/upload-hcm-knowledge.mjs",
+    "upload:lsd-textbook": "node scripts/upload-hcm-knowledge.mjs",
     "upload:hcm-knowledge": "node scripts/upload-hcm-knowledge.mjs",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
@@ -28,6 +32,7 @@
     "express": "^4.21.2",
     "firebase": "^12.12.0",
     "lucide-react": "^0.546.0",
+    "mapbox-gl": "^3.25.0",
     "motion": "^12.23.24",
     "openai": "^6.34.0",
     "react": "^19.0.0",
