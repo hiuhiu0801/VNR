@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { signInWithPopup, signOut, type User } from "firebase/auth";
 import {
   Camera,
@@ -28,8 +28,8 @@ import {
   X,
 } from "lucide-react";
 import { motion } from "motion/react";
-import HTMLFlipBook from "react-pageflip";
 import { useAuthState } from "react-firebase-hooks/auth";
+import FlipBook from "./FlipBook";
 import { FloatingChat } from "./components/FloatingChat";
 import { HistoricalVietnamMap } from "./components/HistoricalVietnamMap";
 import { SessionExplorer } from "./components/SessionExplorer";
@@ -1183,63 +1183,11 @@ function LessonFlipbook() {
             </h2>
           </div>
           <p className="text-base leading-7 text-stone-600 dark:text-stone-300">
-            Đây là structure flipbook để bạn thay ảnh minh họa sau. Mỗi trang tóm tắt một lát cắt của tiến trình từ chuẩn bị lực lượng đến bảo vệ chính quyền.
+            Cuốn sổ tay học tập tương tác giúp tái hiện sinh động tiến trình lịch sử từ chuẩn bị lực lượng đến bảo vệ thành quả Cách mạng Tháng Tám 1945 với đầy đủ hình ảnh tư liệu và âm thanh thuyết minh từng trang.
           </p>
         </div>
 
-        <div className="overflow-hidden border border-stone-200 bg-stone-100 px-3 py-8 dark:border-white/10 dark:bg-stone-950">
-          <div className="mx-auto w-full max-w-[900px] overflow-x-auto px-2 py-2">
-            <HTMLFlipBook
-              width={420}
-              height={560}
-              minWidth={300}
-              maxWidth={440}
-              minHeight={420}
-              maxHeight={580}
-              size="stretch"
-              startPage={0}
-              drawShadow
-              flippingTime={650}
-              usePortrait
-              startZIndex={0}
-              autoSize
-              maxShadowOpacity={0.28}
-              showCover
-              mobileScrollSupport
-              clickEventForward
-              useMouseEvents
-              swipeDistance={30}
-              showPageCorners
-              disableFlipByClick={false}
-              className="mx-auto"
-              style={{ margin: "0 auto" }}
-            >
-              {flipPages.map((page, index) => (
-                <div key={page.label} className="h-full overflow-hidden border border-stone-200 bg-white p-5 text-stone-950 shadow-sm dark:border-white/10 dark:bg-stone-900 dark:text-white sm:p-7">
-                  <div className="flex h-full flex-col">
-                    <p className="text-xs font-black uppercase tracking-[0.22em] text-red-700 dark:text-amber-200">{page.label}</p>
-                    <h3 className="mt-3 text-xl font-black uppercase leading-tight sm:mt-4 sm:text-3xl">{page.title}</h3>
-                    <div className="my-4 aspect-[2/1] border border-dashed border-stone-300 bg-stone-100 dark:border-white/15 dark:bg-white/[0.04] sm:my-6 sm:aspect-[16/9]">
-                      <div className="flex h-full flex-col items-center justify-center gap-3 px-6 text-center">
-                        <Image className="h-8 w-8 text-stone-400" />
-                        <p className="text-xs font-bold uppercase tracking-[0.16em] text-stone-500">Khung ảnh trang {index + 1}</p>
-                      </div>
-                    </div>
-                    <p className="text-xs leading-5 text-stone-700 dark:text-stone-300 sm:text-sm sm:leading-7">{page.body}</p>
-                    <div className="mt-auto space-y-1 pt-3 sm:space-y-2 sm:pt-5">
-                      {page.bullets.map((bullet) => (
-                        <div key={bullet} className="flex items-center gap-2 text-[11px] font-bold leading-4 text-stone-700 dark:text-stone-200 sm:text-sm sm:leading-5">
-                          <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-red-700 dark:text-amber-200 sm:h-4 sm:w-4" />
-                          {bullet}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </HTMLFlipBook>
-          </div>
-        </div>
+        <FlipBook />
       </div>
     </section>
   );
