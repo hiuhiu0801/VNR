@@ -8,103 +8,72 @@ import React, {
 import HTMLFlipBook from "react-pageflip";
 import { TECHNICAL_FLIPBOOK_PAGES } from "./data/technicalFlipbookPages";
 const PAGE_RATIO = 1024 / 576;
-const DEFAULT_PAGES = Array.from({ length: 16 }, (_, i) => ({
-  id: `page-${i}`,
-  src: `/images/flipbook/P_${i}.jpg`,
-  alt: i === 0 ? "Trang bìa" : `Trang truyện ${i}`,
-  type: i === 0 ? "cover" : "story",
-}));
+const DEFAULT_PAGES = Array.from({ length: 24 }, (_, i) => {
+  const pageNum = i + 1;
+  return {
+    id: `page-${pageNum}`,
+    src: `/images/flipbook/${pageNum}.png`,
+    alt: pageNum === 1 ? "Trang bìa" : `Trang truyện ${pageNum}`,
+    type: pageNum === 1 ? "cover" : "story",
+  };
+});
 
 const DEFAULT_STORY_TEXTS = [
-  `Có những lúc, lòng yêu nước không bắt đầu từ những điều thật lớn lao.
-Nó bắt đầu từ một con đường làng quen thuộc, một lá cờ bay trong gió, một bến thuyền nhỏ, và những con người âm thầm sống vì nhau.
-
-Câu chuyện “Ngọn Đèn Ở Cuối Làng” kể về An, một sinh viên trở về quê sau những ngày học tập ở thành phố.
-Trong một đêm bão, khi ngọn hải đăng cuối làng bất ngờ vụt tắt, An lần đầu hiểu rằng: quê hương không chỉ là nơi để trở về, mà còn là nơi mỗi người cần có trách nhiệm gìn giữ.
-
-Và đôi khi, chỉ một ánh đèn nhỏ cũng có thể soi sáng cả một tình yêu lớn.`,
-
-  `Chiều hè, An kéo vali trở về làng chài ven biển.
-Con đường cát, mái nhà nhỏ, bến thuyền và lá cờ đỏ sao vàng hiện ra trước mắt cậu.
-An từng nghĩ yêu nước là điều gì đó rất lớn lao.
-Nhưng khi trở về nơi mình sinh ra, cậu bắt đầu thấy Tổ quốc thật gần.`,
-
-  `An đứng trên bãi cát, nhìn về ngọn hải đăng cũ ở cuối làng.
-Một đứa trẻ nói với cậu rằng ánh đèn ấy luôn soi đường cho thuyền cá trở về.
-An im lặng nhìn vệt sáng mỏng trên mặt biển.
-Cậu tự hỏi vì sao cả làng luôn tin vào ngọn đèn ấy.`,
-
-  `Sáng hôm sau, làng chài lại bắt đầu một ngày mới.
-Người lớn vá lưới, kéo thuyền, phơi cá. Trẻ con chạy chơi trên cát.
-An nhận ra, mỗi người đều đang âm thầm làm phần việc của mình.
-Có lẽ lòng yêu nước bắt đầu từ những điều bình dị như thế.`,
-
-  `An ngồi trước hiên nhà, mở cuốn giáo trình ra đọc.
-Trên trang sách là những dòng chữ về trách nhiệm của thế hệ trẻ.
-Nhưng An vẫn tự hỏi: yêu nước thật sự là gì?
-Cậu cảm thấy có những câu hỏi chỉ quê hương mới trả lời được.`,
-
-  `Chiều muộn, mây đen kéo đến từ phía biển.
-Sóng bắt đầu mạnh hơn, còn vài chiếc thuyền vẫn chưa kịp trở về.
-Bác cựu chiến binh cầm chiếc radio cũ, lặng lẽ nghe tin bão.
-An nhìn biển và thấy lòng mình bất an.`,
-
-  `Đêm xuống, mưa gió dữ dội bao trùm cả làng.
-Người dân tập trung gần bến, ai cũng căng thẳng chờ tin từ ngoài khơi.
-Những ánh đèn nhỏ run rẩy trong màn mưa.
-Lần đầu tiên, An thấy sự bình yên mong manh đến vậy.`,
-
-  `Giữa cơn bão, ngọn hải đăng cuối làng bất ngờ vụt tắt.
-Cả vùng biển phía trước chìm vào bóng tối.
-Mọi người hoảng hốt nhìn về phía cuối làng.
-Khi ngọn đèn tắt, An mới hiểu vì sao cả làng cần nó sáng.`,
-
-  `Bác cựu chiến binh khoác áo mưa, cầm đèn pin đi về phía hải đăng.
-An nhìn bác, rồi nhìn ra biển tối.
-Cậu không biết mình có giúp được gì không.
-Nhưng cậu biết mình không thể đứng yên.`,
-
-  `Đoàn người đi dọc con đường ven biển trong mưa gió.
-Sóng đánh mạnh vào đá, còn gió thì thổi rát mặt.
-Dưới mái hiên, vài đứa trẻ cầm đèn nhỏ soi theo.
-Trong cơn bão, An thấy làng mình không hề nhỏ bé.`,
-
-  `Bên trong hải đăng, An soi đèn pin lên những bức ảnh cũ.
-Có ảnh dân làng kéo thuyền sau bão, người lính đứng bên biển, trẻ em cầm cờ trong ngày hội làng.
-Bác cựu chiến binh kể rằng nhiều thế hệ đã cùng giữ ngọn đèn này sáng.
-An nhận ra mình đang đứng trong một phần ký ức của làng.`,
-
-  `Trên tầng cao của hải đăng, mọi người cùng sửa hệ thống đèn.
-Người giữ thang, người che mưa, người nối dây, người đưa dụng cụ.
-An phụ bác cựu chiến binh nối lại đoạn dây bị hỏng.
-Cậu hiểu rằng có những điều lớn lao được giữ bằng rất nhiều việc nhỏ.`,
-
-  `Một cơn gió mạnh làm cửa hải đăng bật tung.
-Bóng đèn phụ vỡ, dây điện rơi xuống sàn.
-An thoáng sợ và gần như muốn bỏ cuộc.
-Nhưng khi nhìn xuống bến, cậu thấy cả làng vẫn đang chờ ánh sáng.`,
-
-  `Sau nhiều cố gắng, ngọn hải đăng bừng sáng trở lại.
-Ánh sáng vàng mạnh mẽ xuyên qua màn mưa, rọi ra biển tối.
-Người dân dưới bến reo lên.
-Đêm ấy, An không chỉ thấy một ngọn đèn sáng lên, mà thấy lòng mình cũng sáng lên.`,
-
-  `Ngoài khơi, những chiếc thuyền cá nhìn thấy ánh đèn và lần lượt hướng về bờ.
-Dân làng chạy ra bến đón người thân trong mưa nhẹ dần.
-Một người ngư dân già đặt tay lên vai An và gật đầu cảm ơn.
-An hiểu rằng ánh sáng ấy không chỉ soi biển, mà soi đường cho sự bình yên.`,
-
-  `Sáng hôm sau, bão tan. Biển xanh trở lại, làng chài yên bình dưới nắng sớm.
-An khoác balo, chuẩn bị quay lại thành phố.
-Cậu không còn nghĩ yêu nước là điều xa vời.
-Với An, yêu nước bắt đầu từ trách nhiệm với nơi mình thuộc về.
-Dù đi đâu, cậu cũng sẽ giữ cho ngọn đèn trong lòng luôn sáng.`,
+  // Trang 1 - Bìa
+  `Từ chuẩn bị lực lượng đến bảo vệ thành quả Cách mạng Tháng Tám 1945
+Giai đoạn 1940–1946 là một chặng đường lịch sử quan trọng của cách mạng Việt Nam. Trong thời gian này, nhân dân ta vừa chuẩn bị lực lượng, vừa chờ đợi và nắm bắt thời cơ để giành chính quyền. Sau thắng lợi của Cách mạng Tháng Tám, nhiệm vụ mới đặt ra là bảo vệ chính quyền cách mạng non trẻ. Đây là quá trình thể hiện sự lãnh đạo đúng đắn, linh hoạt và kịp thời của Đảng.`,
+  // Trang 2 - Bối cảnh năm 1940
+  `Từ năm 1940, Việt Nam rơi vào tình cảnh bị cả thực dân Pháp và phát xít Nhật áp bức. Đời sống nhân dân vô cùng khó khăn, kinh tế bị bóc lột nặng nề, quyền tự do dân tộc bị tước đoạt. Mâu thuẫn giữa toàn thể dân tộc Việt Nam với các thế lực thống trị ngày càng gay gắt. Trong bối cảnh đó, nhiệm vụ giải phóng dân tộc trở thành yêu cầu cấp bách nhất của cách mạng Việt Nam.`,
+  // Trang 3 - Những tiếng súng báo hiệu
+  `Các cuộc đấu tranh như khởi nghĩa Bắc Sơn, khởi nghĩa Nam Kỳ và binh biến Đô Lương tuy chưa giành thắng lợi, nhưng có ý nghĩa rất quan trọng. Những sự kiện này cho thấy tinh thần yêu nước và ý chí chống áp bức của nhân dân Việt Nam vẫn luôn mạnh mẽ. Đây cũng là những tiếng súng báo hiệu cho con đường đấu tranh vũ trang sau này. Từ thất bại của các phong trào ấy, cách mạng rút ra nhiều kinh nghiệm quý báu về tổ chức lực lượng và lựa chọn thời cơ.`,
+  // Trang 4 - Chuẩn bị lực lượng cách mạng
+  `Sau những phong trào đấu tranh đầu thập niên 1940, cách mạng Việt Nam bước vào quá trình chuẩn bị lực lượng một cách bền bỉ. Đảng chú trọng xây dựng lực lượng chính trị trong quần chúng, đồng thời phát triển lực lượng vũ trang và căn cứ địa cách mạng. Các cơ sở cách mạng được gây dựng ở nhiều địa phương, nhất là vùng nông thôn và miền núi. Sự chuẩn bị âm thầm nhưng chắc chắn này tạo nền tảng quan trọng cho cuộc Tổng khởi nghĩa sau này.`,
+  // Trang 5 - Việt Minh ra đời
+  `Năm 1941, Mặt trận Việt Minh được thành lập với mục tiêu đoàn kết toàn dân tộc để đánh Nhật, đánh Pháp, giành độc lập. Việt Minh không chỉ tập hợp công nhân, nông dân mà còn thu hút thanh niên, phụ nữ, trí thức, tiểu thương và nhiều tầng lớp yêu nước khác. Sự ra đời của Việt Minh giúp phong trào cách mạng có một hình thức tổ chức rộng rãi và phù hợp với yêu cầu giải phóng dân tộc. Từ đây, ngọn cờ độc lập dân tộc được giương cao và lan rộng trong nhân dân.`,
+  // Trang 6 - Đoàn kết toàn dân
+  `Để chuẩn bị cho cách mạng, các hội cứu quốc được tổ chức trong nhiều tầng lớp nhân dân. Nông dân, công nhân, thanh niên, phụ nữ, học sinh, trí thức đều có thể tham gia vào phong trào cứu nước bằng nhiều hình thức khác nhau. Người thì tuyên truyền, người thì nuôi giấu cán bộ, người góp lương thực, người tham gia tự vệ. Chính sức mạnh đoàn kết toàn dân đã làm cho cách mạng có cơ sở rộng lớn và ngày càng phát triển vững chắc.`,
+  // Trang 7 - Xây dựng lực lượng vũ trang
+  `Bên cạnh lực lượng chính trị, lực lượng vũ trang cách mạng cũng từng bước được xây dựng. Từ các đội du kích, tự vệ cứu quốc và Cứu quốc quân, cách mạng hình thành những lực lượng nòng cốt để hỗ trợ nhân dân đấu tranh. Các đội vũ trang vừa chiến đấu, vừa tuyên truyền, vừa bảo vệ căn cứ cách mạng. Đây là bước chuẩn bị cần thiết để khi thời cơ đến, nhân dân có thể vùng lên giành chính quyền.`,
+  // Trang 8 - Việt Nam Tuyên truyền Giải phóng quân
+  `Ngày 22/12/1944, Việt Nam Tuyên truyền Giải phóng quân được thành lập. Đây là sự kiện đánh dấu bước phát triển mới của lực lượng vũ trang cách mạng Việt Nam. Tuy lực lượng ban đầu còn nhỏ bé, nhưng có tinh thần chiến đấu cao và gắn bó mật thiết với nhân dân. Đội quân này không chỉ có nhiệm vụ chiến đấu mà còn tuyên truyền, vận động quần chúng tham gia cách mạng.`,
+  // Trang 9 - Nhật đảo chính Pháp
+  `Ngày 9/3/1945, Nhật đảo chính Pháp và độc chiếm Đông Dương. Sự kiện này làm bộ máy cai trị của thực dân Pháp ở Đông Dương tan rã nhanh chóng. Chính quyền tay sai rơi vào tình trạng lúng túng, xã hội có nhiều biến động lớn. Tình hình mới mở ra điều kiện thuận lợi hơn cho cách mạng Việt Nam chuyển sang giai đoạn đấu tranh mạnh mẽ hơn.`,
+  // Trang 10 - Chỉ thị ngày 12/3/1945
+  `Trước tình hình Nhật đảo chính Pháp, Ban Thường vụ Trung ương Đảng đã ban hành Chỉ thị “Nhật – Pháp bắn nhau và hành động của chúng ta” vào ngày 12/3/1945. Chỉ thị xác định kẻ thù trước mắt của nhân dân Đông Dương lúc này là phát xít Nhật. Đồng thời, Đảng phát động cao trào kháng Nhật cứu nước trên phạm vi rộng lớn. Đây là sự chỉ đạo kịp thời, giúp cách mạng chuyển hướng hành động phù hợp với tình hình mới.`,
+  // Trang 11 - Cao trào kháng Nhật cứu nước
+  `Sau Chỉ thị 12/3/1945, phong trào kháng Nhật cứu nước phát triển mạnh ở nhiều địa phương. Nhân dân đấu tranh chống Nhật và chính quyền tay sai bằng nhiều hình thức như mít tinh, biểu tình, phá kho thóc, giành chính quyền từng phần. Không khí cách mạng lan rộng từ nông thôn đến thành thị. Cao trào này là bước chuẩn bị trực tiếp cho cuộc Tổng khởi nghĩa Tháng Tám năm 1945.`,
+  // Trang 12 - Phá kho thóc, cứu đói
+  `Trong năm 1945, nạn đói diễn ra nghiêm trọng, khiến đời sống nhân dân vô cùng khốn khổ. Trước tình hình đó, phong trào phá kho thóc Nhật để cứu dân nghèo được phát động ở nhiều nơi. Hoạt động này có ý nghĩa thiết thực vì vừa cứu đói cho nhân dân, vừa làm suy yếu bộ máy cai trị của Nhật và tay sai. Qua phong trào, quần chúng càng tin tưởng vào cách mạng và tích cực tham gia đấu tranh.`,
+  // Trang 13 - Chuẩn bị Tổng khởi nghĩa
+  `Từ giữa năm 1945, cách mạng Việt Nam bước vào giai đoạn chuẩn bị trực tiếp cho Tổng khởi nghĩa. Lực lượng chính trị trong quần chúng ngày càng lớn mạnh, lực lượng vũ trang được củng cố, các căn cứ địa tiếp tục mở rộng. Những cuộc họp quan trọng được tổ chức để thống nhất chủ trương và chuẩn bị kế hoạch hành động. Tất cả đều hướng đến mục tiêu giành chính quyền khi thời cơ lịch sử xuất hiện.`,
+  // Trang 14 - Thời cơ tháng Tám
+  `Tháng 8/1945, phát xít Nhật đầu hàng Đồng minh, làm cho chính quyền tay sai ở Đông Dương rơi vào khủng hoảng nghiêm trọng. Trong khi đó, quân Đồng minh chưa kịp vào Đông Dương để giải giáp quân Nhật. Đây là thời cơ rất thuận lợi nhưng cũng rất ngắn ngủi đối với cách mạng Việt Nam. Nếu không hành động nhanh chóng và quyết đoán, cơ hội giành độc lập có thể bị bỏ lỡ.`,
+  // Trang 15 - Lệnh Tổng khởi nghĩa
+  `Trước thời cơ lịch sử, Đảng và Việt Minh quyết định phát động toàn dân Tổng khởi nghĩa. Lệnh khởi nghĩa nhanh chóng được truyền đi khắp cả nước, làm bùng lên khí thế cách mạng mạnh mẽ. Nhân dân từ thành thị đến nông thôn đồng loạt đứng lên giành chính quyền. Sức mạnh của quần chúng, kết hợp với sự chuẩn bị lâu dài trước đó, đã tạo nên thắng lợi nhanh chóng của Cách mạng Tháng Tám.`,
+  // Trang 16 - Giành chính quyền trong cả nước
+  `Cuộc Tổng khởi nghĩa diễn ra sôi nổi và giành thắng lợi ở nhiều địa phương. Các trung tâm lớn như Hà Nội, Huế và Sài Gòn lần lượt giành được chính quyền. Chính quyền cách mạng được thành lập từ trung ương đến địa phương, thay thế bộ máy cai trị cũ. Thắng lợi này chứng minh sức mạnh to lớn của nhân dân khi được tổ chức và lãnh đạo đúng đắn.`,
+  // Trang 17 - Ngày độc lập
+  `Ngày 2/9/1945, tại Quảng trường Ba Đình, Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập trước quốc dân đồng bào. Bản Tuyên ngôn khẳng định quyền độc lập, tự do thiêng liêng của dân tộc Việt Nam. Nước Việt Nam Dân chủ Cộng hòa ra đời, đánh dấu sự sụp đổ của chế độ thuộc địa và phong kiến ở nước ta. Từ đây, nhân dân Việt Nam bước vào một kỷ nguyên mới: kỷ nguyên độc lập dân tộc và làm chủ đất nước.`,
+  // Trang 18 - Chính quyền non trẻ
+  `Sau thắng lợi của Cách mạng Tháng Tám, chính quyền cách mạng phải đối mặt với muôn vàn khó khăn. Đất nước vừa thoát khỏi ách thống trị cũ nên kinh tế kiệt quệ, tài chính trống rỗng, nạn đói và nạn mù chữ còn rất nghiêm trọng. Bên cạnh đó, các thế lực ngoại xâm và phản động tìm cách chống phá chính quyền mới. Tình thế lúc này rất hiểm nghèo, thường được ví như “ngàn cân treo sợi tóc”.`,
+  // Trang 19 - Diệt giặc đói
+  `Để giải quyết nạn đói, Chính phủ kêu gọi nhân dân tăng gia sản xuất, thực hành tiết kiệm và giúp đỡ lẫn nhau. Các phong trào như lập hũ gạo cứu đói, nhường cơm sẻ áo, khai hoang, trồng thêm hoa màu được phát động rộng rãi. Những biện pháp này vừa giúp ổn định đời sống nhân dân, vừa củng cố niềm tin của quần chúng đối với chính quyền cách mạng. Việc chống giặc đói trở thành một nhiệm vụ cấp bách để bảo vệ thành quả độc lập.`,
+  // Trang 20 - Diệt giặc dốt
+  `Bên cạnh giặc đói, nạn mù chữ cũng là một khó khăn lớn của đất nước sau Cách mạng Tháng Tám. Chính phủ phát động phong trào Bình dân học vụ nhằm xóa nạn mù chữ trong nhân dân. Nhiều lớp học được mở ở làng quê, phố phường, nhà dân và đình làng, với tinh thần ai biết chữ thì dạy người chưa biết chữ. Việc học chữ không chỉ giúp nhân dân nâng cao hiểu biết mà còn giúp họ thực sự trở thành người làm chủ đất nước.`,
+  // Trang 21 - Xây dựng chính quyền mới
+  `Ngày 6/1/1946, cuộc Tổng tuyển cử bầu Quốc hội khóa I được tổ chức trên phạm vi cả nước. Đây là sự kiện quan trọng, thể hiện quyền làm chủ của nhân dân trong một quốc gia độc lập. Sau đó, Quốc hội và Chính phủ chính thức được thành lập, tạo cơ sở pháp lý cho chính quyền cách mạng. Việc ban hành Hiến pháp năm 1946 tiếp tục khẳng định nền tảng dân chủ của Nhà nước Việt Nam mới.`,
+  // Trang 22 - Nam Bộ kháng chiến
+  `Sau khi nước Việt Nam Dân chủ Cộng hòa ra đời, thực dân Pháp quay trở lại xâm lược Nam Bộ. Nhân dân Nam Bộ đã đứng lên kháng chiến để bảo vệ nền độc lập vừa giành được. Cuộc kháng chiến ở Nam Bộ thể hiện tinh thần yêu nước, ý chí kiên cường và quyết tâm không chịu mất nước một lần nữa. Đây là một phần quan trọng trong cuộc đấu tranh bảo vệ chính quyền cách mạng non trẻ.`,
+  // Trang 23 - Kháng chiến kiến quốc
+  `Ngày 25/11/1945, Chỉ thị “Kháng chiến kiến quốc” được ban hành, xác định những nhiệm vụ cấp bách của cách mạng sau khi giành chính quyền. Nội dung trọng tâm là củng cố chính quyền, chống thực dân Pháp xâm lược, bài trừ nội phản và cải thiện đời sống nhân dân. Chỉ thị thể hiện sự kết hợp giữa hai nhiệm vụ: vừa kháng chiến bảo vệ độc lập, vừa kiến quốc xây dựng đất nước. Đây là định hướng quan trọng giúp chính quyền cách mạng vượt qua tình thế khó khăn ban đầu.`,
+  // Trang 24 - Bảo vệ thành quả cách mạng
+  `Đến cuối năm 1946, chính quyền cách mạng đã từng bước được củng cố, nhân dân ngày càng tin tưởng vào chế độ mới. Dù đất nước còn rất nhiều khó khăn và nguy cơ chiến tranh lan rộng, cách mạng vẫn giữ vững được thành quả lớn nhất là nền độc lập dân tộc. Các lực lượng kháng chiến được chuẩn bị để sẵn sàng bảo vệ Tổ quốc trong tình hình mới. Thành quả của Cách mạng Tháng Tám không chỉ là giành chính quyền, mà còn là khẳng định quyền làm chủ của nhân dân Việt Nam đối với vận mệnh đất nước.`
 ];
-const DEFAULT_AUDIO_FILES = Array.from(
-  { length: 16 },
-  (_, i) => `/audio/A_${i}.mp3`
-);
 
+const DEFAULT_AUDIO_FILES = Array.from(
+  { length: 24 },
+  (_, i) => `/audio/${i + 1}.mp3`
+);
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const FlipBook = React.forwardRef((props = {}, ref) => {
@@ -899,7 +868,7 @@ const FlipBook = React.forwardRef((props = {}, ref) => {
       {!externalAudioRef && <audio ref={internalAudioRef} preload="auto" />}
 
       <div className="flipbook-header">
-        <h1 className="flipbook-title">Ngọn Đèn Ở Cuối Làng</h1>
+        <h1 className="flipbook-title">Cách mạng Tháng Tám 1945</h1>
         <p style={{ opacity: 0.7 }}>
           Sử dụng nút cuộn hoặc click để lật trang
         </p>
