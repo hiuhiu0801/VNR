@@ -7,6 +7,13 @@ export type ImageSlot = {
   pathHint: string;
 };
 
+export type SessionEventImage = {
+  title: string;
+  caption: string;
+  src?: string;
+  pathHint?: string;
+};
+
 export type SessionEventDetail = {
   event: string;
   title: string;
@@ -19,9 +26,11 @@ export type SessionEventDetail = {
   imageCaption: string;
   imageHint: string;
   imageSrc?: string;
+  galleryImages?: SessionEventImage[];
 };
 
-export type SessionEventDetailSeed = Omit<SessionEventDetail, "event">;
+export type SessionEventDetailSeed = Omit<SessionEventDetail, "event" | "imageTitle" | "imageCaption" | "imageHint"> &
+  Partial<Pick<SessionEventDetail, "imageTitle" | "imageCaption" | "imageHint">>;
 
 export type SessionBlock = {
   id: string;

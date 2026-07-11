@@ -1,8 +1,9 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import {
   BadgeCheck,
   BookOpen,
   CheckCircle2,
+  ChevronLeft,
   ChevronRight,
   Clock3,
   Flag,
@@ -152,16 +153,32 @@ export function SessionExplorer({ sessions, getSessionEventDetail }: SessionExpl
               <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 {active.events.map((event, index) => {
                   const eventDetail = getSessionEventDetail(active, event, index);
+                  const imageCount = eventDetail.galleryImages?.length || (eventDetail.imageSrc ? 1 : 0);
 
                   return (
                     <button
                       key={event}
                       type="button"
                       onClick={() => setSelectedEvent(eventDetail)}
-                      className="group min-h-24 border-l-2 border-red-700 bg-stone-50 px-4 py-3 text-left text-sm font-semibold text-stone-700 transition hover:bg-white hover:shadow-sm dark:border-amber-200 dark:bg-white/[0.04] dark:text-stone-200 dark:hover:bg-white/[0.08]"
+                      className="group overflow-hidden border-l-2 border-red-700 bg-stone-50 text-left text-sm font-semibold text-stone-700 transition hover:bg-white hover:shadow-sm dark:border-amber-200 dark:bg-white/[0.04] dark:text-stone-200 dark:hover:bg-white/[0.08]"
                     >
-                      <span className="block leading-6">{event}</span>
-                      <span className="mt-2 block text-xs font-bold text-stone-500 transition group-hover:text-red-700 dark:text-stone-400 dark:group-hover:text-amber-200">
+                      <span className="relative block aspect-[16/9] bg-stone-200 dark:bg-stone-800">
+                        {eventDetail.imageSrc ? (
+                          <img src={eventDetail.imageSrc} alt={eventDetail.imageTitle} className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.04]" />
+                        ) : (
+                          <span className={`flex h-full items-center justify-center ${activePhase.surfaceClass}`} aria-hidden="true">
+                            <Image className="h-6 w-6 text-white/70" />
+                          </span>
+                        )}
+                        <span className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/8 to-transparent" />
+                        {imageCount > 1 && (
+                          <span className="absolute bottom-2 right-2 border border-white/20 bg-black/70 px-2 py-1 text-[11px] font-black text-white backdrop-blur">
+                            {imageCount} ảnh
+                          </span>
+                        )}
+                      </span>
+                      <span className="block px-4 pt-3 leading-6">{event}</span>
+                      <span className="mt-2 block px-4 pb-3 text-xs font-bold text-stone-500 transition group-hover:text-red-700 dark:text-stone-400 dark:group-hover:text-amber-200">
                         Bấm để xem nội dung sự kiện
                       </span>
                     </button>
@@ -170,20 +187,6 @@ export function SessionExplorer({ sessions, getSessionEventDetail }: SessionExpl
               </div>
             </div>
 
-            <div className="border-t border-stone-200 p-5 dark:border-white/10 md:p-6">
-              <SectionMiniTitle icon={Image} title="Tư liệu hình ảnh cho giai đoạn" />
-              <div className="mt-4 grid gap-4 md:grid-cols-3">
-                {active.imageSlots.map((slot) => (
-                  <ImagePlaceholder
-                    key={slot.title}
-                    slot={slot}
-                    surfaceClass={activePhase.surfaceClass}
-                    fallbackSrc={active.heroImage}
-                    onOpen={(src) => setSelectedImage({ title: slot.title, caption: slot.caption, src })}
-                  />
-                ))}
-              </div>
-            </div>
           </motion.article>
 
           {selectedEvent && (
@@ -213,6 +216,45 @@ function SessionEventWindow({
   surfaceClass: string;
   onClose: () => void;
 }) {
+  const galleryImages =
+    detail.galleryImages && detail.galleryImages.length > 0
+      ? detail.galleryImages
+      : [{ title: detail.imageTitle, caption: detail.imageCaption, src: detail.imageSrc, pathHint: detail.imageHint }];
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const activeImage = galleryImages[Math.min(activeImageIndex, galleryImages.length - 1)] || galleryImages[0];
+  const hasMultipleImages = galleryImages.length > 1;
+
+  const goToImage = (direction: -1 | 1) => {
+    setActiveImageIndex((current) => (current + direction + galleryImages.length) % galleryImages.length);
+  };
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [detail.event]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (!hasMultipleImages) return;
+      if (event.key === "ArrowLeft") goToImage(-1);
+      if (event.key === "ArrowRight") goToImage(1);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [hasMultipleImages, onClose, galleryImages.length]);
+
+  const handleTouchEnd = (clientX: number) => {
+    if (touchStartX.current === null || !hasMultipleImages) return;
+
+    const deltaX = clientX - touchStartX.current;
+    touchStartX.current = null;
+
+    if (Math.abs(deltaX) < 44) return;
+    goToImage(deltaX > 0 ? -1 : 1);
+  };
+
   return (
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center bg-black/45 p-4 backdrop-blur-sm"
@@ -252,17 +294,73 @@ function SessionEventWindow({
         <div className="grid max-h-[72vh] overflow-y-auto md:grid-cols-[0.95fr_1.05fr]">
           <div className="border-b border-stone-200 bg-stone-100 p-4 dark:border-white/10 dark:bg-stone-900 md:border-b-0 md:border-r">
             <div className="overflow-hidden border border-stone-200 bg-white dark:border-white/10 dark:bg-white/[0.04]">
-              <div className="relative aspect-[4/3] bg-stone-200 dark:bg-stone-800">
-                {detail.imageSrc ? (
-                  <img src={detail.imageSrc} alt={detail.imageTitle} className="h-full w-full object-cover" />
+              <div
+                className="relative aspect-[4/3] touch-pan-y bg-stone-200 dark:bg-stone-800"
+                onTouchStart={(event) => {
+                  touchStartX.current = event.touches[0]?.clientX ?? null;
+                }}
+                onTouchEnd={(event) => {
+                  handleTouchEnd(event.changedTouches[0]?.clientX ?? 0);
+                }}
+              >
+                {activeImage?.src ? (
+                  <img src={activeImage.src} alt={activeImage.title} className="h-full w-full object-cover" />
                 ) : (
                   <div className={`h-full ${surfaceClass}`} aria-hidden="true" />
                 )}
+                {hasMultipleImages && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => goToImage(-1)}
+                      className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center border border-white/20 bg-black/65 text-white transition hover:bg-black/85"
+                      aria-label="Xem ảnh trước"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => goToImage(1)}
+                      className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center border border-white/20 bg-black/65 text-white transition hover:bg-black/85"
+                      aria-label="Xem ảnh tiếp theo"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
+                    <span className="absolute bottom-3 right-3 border border-white/20 bg-black/70 px-2.5 py-1 text-xs font-black text-white backdrop-blur">
+                      {activeImageIndex + 1}/{galleryImages.length}
+                    </span>
+                  </>
+                )}
               </div>
               <div className="p-4">
-                <p className="text-sm font-black">{detail.imageTitle}</p>
-                <p className="mt-2 text-xs leading-5 text-stone-600 dark:text-stone-300">{detail.imageCaption}</p>
+                <p className="text-sm font-black">{activeImage?.title || detail.imageTitle}</p>
+                <p className="mt-2 text-xs leading-5 text-stone-600 dark:text-stone-300">{activeImage?.caption || detail.imageCaption}</p>
               </div>
+              {hasMultipleImages && (
+                <div className="border-t border-stone-200 p-3 dark:border-white/10">
+                  <div className="flex gap-2 overflow-x-auto pb-1">
+                    {galleryImages.map((image, index) => (
+                      <button
+                        key={`${image.title}-${image.src || image.pathHint || index}`}
+                        type="button"
+                        onClick={() => setActiveImageIndex(index)}
+                        className={`relative h-16 w-20 shrink-0 overflow-hidden border transition ${
+                          index === activeImageIndex
+                            ? "border-red-700 ring-2 ring-red-700/20 dark:border-amber-200 dark:ring-amber-200/20"
+                            : "border-stone-200 opacity-70 hover:opacity-100 dark:border-white/10"
+                        }`}
+                        aria-label={`Xem ảnh ${index + 1}`}
+                      >
+                        {image.src ? (
+                          <img src={image.src} alt={image.title} className="h-full w-full object-cover" />
+                        ) : (
+                          <span className={`block h-full ${surfaceClass}`} aria-hidden="true" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

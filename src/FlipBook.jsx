@@ -497,7 +497,7 @@ const FlipBook = React.forwardRef((props = {}, ref) => {
 }
 
 .flipbook-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Noto Serif', Georgia, serif;
   font-size: 2rem;
   margin-bottom: 4px;
   background: linear-gradient(to right, #fff, #aaa);
@@ -681,7 +681,7 @@ const FlipBook = React.forwardRef((props = {}, ref) => {
   overflow: hidden;
   background: #020617;
   color: white;
-  font-family: Inter, system-ui, sans-serif;
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
 }
 
 .technical-bg {

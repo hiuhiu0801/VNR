@@ -1,8 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { signInWithPopup, signOut, type User } from "firebase/auth";
 import {
-  Camera,
-  CalendarDays,
   CheckCircle2,
   ChevronRight,
   CircleUserRound,
@@ -11,7 +9,6 @@ import {
   HelpCircle,
   Image,
   Landmark,
-  Layers3,
   LogIn,
   LogOut,
   Menu,
@@ -19,7 +16,6 @@ import {
   Moon,
   Network,
   PanelRightOpen,
-  Route,
   ShieldCheck,
   Sparkles,
   Sun,
@@ -39,6 +35,7 @@ import type {
   FlipPage,
   SessionBlock,
   SessionEventDetail,
+  SessionEventImage,
   SessionEventDetailSeed,
   UprisingEvent,
 } from "./types/august1945";
@@ -51,7 +48,7 @@ const sessions: SessionBlock[] = [
     title: "Chuẩn bị lực lượng cách mạng",
     tagline: "Chuyển hướng chiến lược, đặt nhiệm vụ giải phóng dân tộc lên hàng đầu.",
     icon: Network,
-    heroImage: "/images/august1945/phase-prepare-bg.png",
+    heroImage: "/images/phases/prepare-bg.png",
     accent: "text-red-700 dark:text-red-200",
     summary:
       "Giai đoạn này giúp người học hiểu vì sao Đảng phải chuyển trọng tâm đấu tranh trong bối cảnh Chiến tranh thế giới thứ hai, từ đó chuẩn bị lực lượng chính trị, lực lượng vũ trang, căn cứ địa và mặt trận dân tộc thống nhất.",
@@ -72,22 +69,22 @@ const sessions: SessionBlock[] = [
     ],
     imageSlots: [
       {
-        title: "Không gian chuẩn bị lực lượng",
-        caption: "Background cũ được giữ lại cho giai đoạn xây dựng đường lối, căn cứ địa và lực lượng.",
-        src: "/images/august1945/phase-prepare-bg.png",
-        pathHint: "public/images/session8/can-cu-viet-bac.jpg",
+        title: "Chuyển hướng chiến lược",
+        caption: "Tư liệu minh họa việc chuẩn bị đường lối, tổ chức và lực lượng trong bối cảnh chiến tranh.",
+        src: "/images/session8/strategy-shift-1939.jpg",
+        pathHint: "public/images/session8/strategy-shift-1939.jpg",
       },
       {
-        title: "Giải phóng quân Thái Nguyên",
-        caption: "Tư liệu gợi liên hệ tới quá trình chuẩn bị và phát triển lực lượng cách mạng ở Việt Bắc.",
-        src: "/images/august1945/giai-phong-quan-thai-nguyen-1945.jpg",
-        pathHint: "public/images/session8/viet-minh.jpg",
+        title: "Đông Dương trong chiến tranh",
+        caption: "Ảnh tư liệu gợi bối cảnh thuộc địa và áp lực chiến tranh tại Đông Dương.",
+        src: "/images/session8/japan-indochina-1940.jpg",
+        pathHint: "public/images/session8/japan-indochina-1940.jpg",
       },
       {
-        title: "Cứu Quốc quân Hải Phòng",
-        caption: "Tư liệu về lực lượng vũ trang cách mạng, nối từ chuẩn bị lực lượng tới nhiệm vụ bảo vệ chính quyền.",
-        src: "/images/august1945/cuu-quoc-quan-hai-phong-1945.jpg",
-        pathHint: "public/images/session8/bac-son.jpg",
+        title: "Không gian Pác Bó - Việt Minh",
+        caption: "Không gian căn cứ gắn với quá trình xây dựng Mặt trận Việt Minh và lực lượng cứu quốc.",
+        src: "/images/session8/viet-minh-1941.jpg",
+        pathHint: "public/images/session8/viet-minh-1941.jpg",
       },
     ],
     questions: [
@@ -102,7 +99,7 @@ const sessions: SessionBlock[] = [
     title: "Cao trào kháng Nhật và chớp thời cơ",
     tagline: "Từ Nhật đảo chính Pháp đến quyết định phát động Tổng khởi nghĩa.",
     icon: Clock3,
-    heroImage: "/images/august1945/phase-opportunity-bg.jpg",
+    heroImage: "/images/phases/opportunity-bg.jpg",
     accent: "text-amber-700 dark:text-amber-200",
     summary:
       "Giai đoạn này làm rõ sự nhạy bén của Đảng trước biến động ngày 9/3/1945, nội dung chỉ thị ngày 12/3/1945 và cách cao trào kháng Nhật cứu nước trở thành bước tập dượt trực tiếp cho Tổng khởi nghĩa.",
@@ -123,22 +120,22 @@ const sessions: SessionBlock[] = [
     ],
     imageSlots: [
       {
-        title: "Du kích Ba Tơ",
-        caption: "Đội du kích Ba Tơ tiến về thị xã Quảng Ngãi, thể hiện khí thế cao trào kháng Nhật.",
-        src: "/images/august1945/du-kich-ba-to-quang-ngai-1945.jpg",
-        pathHint: "public/images/session9/nhat-dao-chinh-phap.jpg",
+        title: "Nhật đảo chính Pháp",
+        caption: "Ảnh tư liệu minh họa bước ngoặt chính trị sau ngày 9/3/1945.",
+        src: "/images/session9/dau-hang.jpg",
+        pathHint: "public/images/session9/dau-hang.jpg",
       },
       {
-        title: "Cao trào kháng Nhật",
-        caption: "Ảnh nền giai đoạn chớp thời cơ, nhấn mạnh chuyển động từ phong trào quần chúng sang khởi nghĩa.",
-        src: "/images/august1945/phase-opportunity-bg.jpg",
-        pathHint: "public/images/session9/pha-kho-thoc.jpg",
+        title: "Quân Pháp chạy trốn",
+        caption: "Tàn quân Pháp bỏ trốn sang biên giới Trung Quốc.",
+        src: "/images/session9/directive-12-3-1945.jpg",
+        pathHint: "public/images/session9/directive-12-3-1945.jpg",
       },
       {
-        title: "Tân Trào",
-        caption: "Tư liệu về Hội nghị toàn quốc của Đảng và Quốc dân Đại hội.",
-        src: "/images/august1945/giai-phong-quan-thai-nguyen-1945.jpg",
-        pathHint: "public/images/session9/tan-trao.jpg",
+        title: "Lạng Sơn - 9/3/1945",
+        caption: "Tù nhân chiến tranh người Pháp tại Lạng Sơn vào ngày 9 tháng 3 năm 1945.",
+        src: "/images/session9/tan-trao-1945.jpg",
+        pathHint: "public/images/session9/tan-trao-1.jpg",
       },
     ],
     questions: [
@@ -153,7 +150,7 @@ const sessions: SessionBlock[] = [
     title: "Tổng khởi nghĩa và thắng lợi",
     tagline: "Hành động nhanh, rộng, đúng thời cơ để giành chính quyền trong cả nước.",
     icon: Flag,
-    heroImage: "/images/august1945/phase-uprising-bg.jpg",
+    heroImage: "/images/phases/uprising-bg.png",
     accent: "text-emerald-700 dark:text-emerald-200",
     summary:
       "Giai đoạn này đi theo diễn biến Tổng khởi nghĩa từ Tân Trào đến các đô thị lớn, nhấn mạnh nghệ thuật chớp thời cơ, sức mạnh đại đoàn kết và ý nghĩa lịch sử của việc khai sinh nước Việt Nam Dân chủ Cộng hòa.",
@@ -176,28 +173,34 @@ const sessions: SessionBlock[] = [
     ],
     imageSlots: [
       {
-        title: "Quần chúng trong Tổng khởi nghĩa",
-        caption: "Tư liệu về khí thế quần chúng trong cao trào giành chính quyền tháng 8/1945.",
-        src: "/images/august1945/sai-gon-dai-lo-norodom-25-8-1945.jpg",
-        pathHint: "public/images/session10/ha-noi-19-8.jpg",
+        title: "Thái Nguyên 16/8/1945",
+        caption: "Tư liệu về lực lượng cách mạng sau khi giành chính quyền ở Thái Nguyên.",
+        src: "/images/session10/giai-phong.jpg",
+        pathHint: "public/images/session10/giai-phong.jpg",
       },
       {
-        title: "Lực lượng cách mạng Thái Nguyên",
-        caption: "Tư liệu về lực lượng cách mạng sau khi giành chính quyền, nối căn cứ với làn sóng toàn quốc.",
-        src: "/images/august1945/giai-phong-quan-thai-nguyen-1945.jpg",
-        pathHint: "public/images/session10/hue-23-8.jpg",
+        title: "Hà Nội 19/8/1945",
+        caption: "Tư liệu minh họa khí thế quần chúng và không gian lập quốc sau Tổng khởi nghĩa.",
+        src: "/images/session10/ha-noi-19-8-1945.jpg",
+        pathHint: "public/images/session10/ha-noi-19-8-1945.jpg",
+      },
+      {
+        title: "Huế 23/8/1945",
+        caption: "Tư liệu minh họa sự chuyển giao quyền lực ở trung tâm biểu tượng của chế độ cũ.",
+        src: "/images/session10/hue-23-8-1945.jpg",
+        pathHint: "public/images/session10/hue-23-8-1945.jpg",
       },
       {
         title: "Sài Gòn 25/8/1945",
         caption: "Tư liệu về phong trào Nam Bộ trong cao trào Tổng khởi nghĩa.",
-        src: "/images/august1945/sai-gon-dai-lo-norodom-25-8-1945.jpg",
-        pathHint: "public/images/session10/sai-gon-25-8.jpg",
+        src: "/images/session10/sai-gon-25-8-1945.jpg",
+        pathHint: "public/images/session10/sai-gon-25-8-1945.jpg",
       },
       {
         title: "Ba Đình 2/9/1945",
         caption: "Tư liệu về Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập.",
-        src: "/images/august1945/phase-uprising-bg.jpg",
-        pathHint: "public/images/session10/ba-dinh-2-9.jpg",
+        src: "/images/session10/ba-dinh-2-9-1945.jpg",
+        pathHint: "public/images/session10/ba-dinh-2-9-1945.jpg",
       },
     ],
     questions: [
@@ -212,7 +215,7 @@ const sessions: SessionBlock[] = [
     title: "Bảo vệ chính quyền cách mạng non trẻ",
     tagline: "Giữ vững thành quả cách mạng trước nạn đói, nạn dốt, thù trong và giặc ngoài.",
     icon: ShieldCheck,
-    heroImage: "/images/august1945/phase-protect-bg.jpg",
+    heroImage: "/images/phases/protect-bg.png",
     accent: "text-cyan-700 dark:text-cyan-200",
     summary:
       "Giai đoạn này chuyển trọng tâm từ giành chính quyền sang giữ chính quyền, phân tích những khó khăn sau ngày độc lập và các quyết sách xây dựng nhà nước mới, chống giặc đói, giặc dốt, giặc ngoại xâm.",
@@ -234,22 +237,28 @@ const sessions: SessionBlock[] = [
     ],
     imageSlots: [
       {
-        title: "Cứu Quốc quân Hải Phòng",
+        title: "Kháng chiến kiến quốc",
         caption: "Tư liệu gợi nhiệm vụ giữ vững lực lượng và bảo vệ chính quyền sau ngày độc lập.",
-        src: "/images/august1945/cuu-quoc-quan-hai-phong-1945.jpg",
-        pathHint: "public/images/session11/tong-tuyen-cu.jpg",
+        src: "/images/session11/khang-chien-kien-quoc-1945.jpg",
+        pathHint: "public/images/session11/khang-chien-kien-quoc-1945.jpg",
       },
       {
-        title: "Diệt giặc đói, giặc dốt",
-        caption: "Tư liệu về bình dân học vụ, tăng gia sản xuất và cứu đói.",
-        src: "/images/august1945/phase-protect-bg.jpg",
-        pathHint: "public/images/session11/giac-doi-giac-dot.jpg",
+        title: "Tổng tuyển cử 1946",
+        caption: "Tư liệu minh họa việc xây dựng chính danh nhà nước mới sau ngày độc lập.",
+        src: "/images/session11/tong-tuyen-cu-1946.jpg",
+        pathHint: "public/images/session11/tong-tuyen-cu-1946.jpg",
       },
       {
-        title: "Ngoại giao 1946",
+        title: "Hiệp định Sơ bộ 1946",
         caption: "Tư liệu về sách lược hòa hoãn để chuẩn bị thực lực.",
-        src: "/images/august1945/cuu-quoc-quan-hai-phong-1945.jpg",
-        pathHint: "public/images/session11/ngoai-giao-1946.jpg",
+        src: "/images/session11/hiep-dinh-so-bo-1946.jpg",
+        pathHint: "public/images/session11/hiep-dinh-so-bo-1946.jpg",
+      },
+      {
+        title: "Tạm ước Việt - Pháp",
+        caption: "Tư liệu minh họa hoạt động ngoại giao và sách lược kéo dài thời gian chuẩn bị.",
+        src: "/images/session11/tam-uoc-1946.jpg",
+        pathHint: "public/images/session11/tam-uoc-1946.jpg",
       },
     ],
     questions: [
@@ -278,9 +287,13 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Mốc này đặt nền cho toàn bộ giai đoạn chuẩn bị: mục tiêu giành độc lập được đưa lên hàng đầu, tạo cơ sở để hình thành lực lượng và mặt trận dân tộc thống nhất.",
-      imageTitle: "Bản đồ căn cứ Việt Bắc",
-      imageCaption: "Minh họa không gian chuẩn bị căn cứ địa và lực lượng cách mạng trong giai đoạn chuyển hướng.",
-      imageHint: "public/images/session8/can-cu-viet-bac.jpg",
+      galleryImages: [
+        {
+          title: "Chuyển hướng chiến lược",
+          caption: "Ảnh tư liệu minh họa việc chuẩn bị đường lối, tổ chức và lực lượng trong bối cảnh chiến tranh.",
+          pathHint: "public/images/session8/strategy-shift-1939.jpg",
+        },
+      ],
     },
     {
       title: "Nhật vào Đông Dương",
@@ -299,9 +312,13 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Tình thế một cổ hai tròng làm cơ sở xã hội của cách mạng mở rộng, giúp phong trào chuyển dần từ phản ứng tự phát sang chuẩn bị có tổ chức.",
-      imageTitle: "Không gian Đông Dương 1940",
-      imageCaption: "Tư liệu minh họa tình thế chính trị khi Nhật kéo vào Đông Dương.",
-      imageHint: "public/images/session8/nhat-vao-dong-duong.jpg",
+      galleryImages: [
+        {
+          title: "Không gian Đông Dương 1940",
+          caption: "Tư liệu minh họa tình thế chính trị khi Nhật kéo vào Đông Dương.",
+          pathHint: "public/images/session8/nhat-ban.jpg",
+        },
+      ],
     },
     {
       title: "Mặt trận Việt Minh thành lập",
@@ -320,9 +337,13 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Việt Minh biến tinh thần yêu nước thành sức mạnh có tổ chức, tạo lực lượng chính trị rộng lớn cho Tổng khởi nghĩa sau này.",
-      imageTitle: "Mặt trận Việt Minh",
-      imageCaption: "Tư liệu minh họa quá trình xây dựng mặt trận dân tộc thống nhất.",
-      imageHint: "public/images/session8/viet-minh.jpg",
+      galleryImages: [
+        {
+          title: "Mặt trận Việt Minh",
+          caption: "Tư liệu minh họa quá trình xây dựng mặt trận dân tộc thống nhất.",
+          pathHint: "public/images/session8/viet-minh.jpg",
+        },
+      ],
     },
   ],
   session9: [
@@ -343,9 +364,25 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Đảo chính Nhật - Pháp làm thời cơ cách mạng đến gần hơn, buộc Đảng phải hành động nhanh và chính xác để không bỏ lỡ nhịp lịch sử.",
-      imageTitle: "Nhật đảo chính Pháp",
-      imageCaption: "Tư liệu về bước ngoặt làm thay đổi kẻ thù trực tiếp của cách mạng.",
-      imageHint: "public/images/session9/nhat-dao-chinh-phap.jpg",
+      galleryImages: [
+        {
+          title: "Nhật đảo chính Pháp",
+          caption: "Lính Pháp đầu hàng ở Hà Nội.",
+          pathHint: "public/images/session9/dau-hang.jpg",
+        },
+        {
+          title: "Quân Pháp chạy trốn",
+          caption: "Tàn quân Pháp bỏ trốn sang biên giới Trung Quốc.",
+          src: "/images/session9/directive-12-3-1945.jpg",
+          pathHint: "public/images/session9/directive-12-3-1945.jpg",
+        },
+        {
+          title: "Lạng Sơn - 9/3/1945",
+          caption: "Tù nhân chiến tranh người Pháp tại Lạng Sơn vào ngày 9 tháng 3 năm 1945.",
+          src: "/images/session9/tan-trao-1945.jpg",
+          pathHint: "public/images/session9/tan-trao-1945.jpg",
+        },
+      ],
     },
     {
       title: "Chỉ thị hành động ngày 12/3/1945",
@@ -364,9 +401,13 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Chỉ thị 12/3 làm phong trào chuyển từ chuẩn bị âm thầm sang cao trào hành động, là bước tập dượt trực tiếp cho Tổng khởi nghĩa tháng 8/1945.",
-      imageTitle: "Phá kho thóc",
-      imageCaption: "Hình ảnh minh họa cao trào kháng Nhật cứu nước và giải quyết nạn đói.",
-      imageHint: "public/images/session9/pha-kho-thoc.jpg",
+      galleryImages: [
+        {
+          title: "Bản chỉ thị làm nên lịch sử",
+          caption: "Chỉ thị “Nhật - Pháp bắn nhau và hành động của chúng ta” được Ban Chấp hành Trung ương Đảng Cộng sản Đông Dương ban hành vào ngày 12 tháng 3 năm 1945. Đây là một sự kiện cực kỳ quan trọng trong lịch sử cách mạng Việt Nam, đánh dấu một bước ngoặt quan trọng trong quá trình chuẩn bị cho cuộc khởi nghĩa giành độc lập của nhân dân Việt Nam dưới sự lãnh đạo của Đảng Cộng sản Đông Dương, là văn kiện quan trọng thể hiện tầm nhìn chiến lược, xuyên suốt giai đoạn tiền khởi nghĩa nên có giá trị lịch sử đặc biệt đối với cách mạng Việt Nam.",
+          pathHint: "public/images/session9/nhat-phap.jpg",
+        },
+      ],
     },
     {
       title: "Hội nghị toàn quốc của Đảng ở Tân Trào",
@@ -385,9 +426,13 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Mốc Tân Trào biến thời cơ thành mệnh lệnh hành động, mở đường cho làn sóng giành chính quyền trên phạm vi cả nước.",
-      imageTitle: "Tân Trào",
-      imageCaption: "Tư liệu về Hội nghị toàn quốc của Đảng và Quốc dân Đại hội.",
-      imageHint: "public/images/session9/tan-trao.jpg",
+      galleryImages: [
+        {
+          title: "Tân Trào",
+          caption: "Đình Tân Trào (huyện Sơn Dương cũ, tỉnh Tuyên Quang) nơi diễn ra Quốc dân Đại hội do Việt Minh triệu tập tháng 8-1945, quyết định Tổng khởi nghĩa, bầu ra Ủy ban dân tộc giải phóng do Hồ Chí Minh làm Chủ tịch_ Ảnh tư liệu",
+          pathHint: "public/images/session9/tan-trao-1.jpg",
+        },
+      ],
     },
   ],
   session10: [
@@ -408,9 +453,13 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Mốc Thái Nguyên tạo nhịp mở đầu cho giai đoạn giành chính quyền, nối căn cứ Tân Trào với làn sóng khởi nghĩa ở đô thị và địa phương.",
-      imageTitle: "Thái Nguyên 16/8/1945",
-      imageCaption: "Tư liệu về hành động quân giải phóng xuất phát từ căn cứ cách mạng.",
-      imageHint: "public/images/route/thai-nguyen.jpg",
+      galleryImages: [
+        {
+          title: "Giải phóng quân Việt Nam 16/8/1945",
+          caption: "Tư liệu về hình ảnh của quân giải phóng Việt Nam giai đoạn đầu.",
+          pathHint: "public/images/session10/giai-phong.jpg",
+        },
+      ],
     },
     {
       title: "Hà Nội giành chính quyền",
@@ -429,9 +478,23 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Thắng lợi ở Hà Nội tạo hiệu ứng lan tỏa mạnh, giúp Huế, Sài Gòn và nhiều địa phương khác có thêm niềm tin, tốc độ và quyết tâm hành động.",
-      imageTitle: "Hà Nội 19/8/1945",
-      imageCaption: "Tư liệu về mít tinh, biểu tình và giành chính quyền ở Hà Nội.",
-      imageHint: "public/images/session10/ha-noi-19-8.jpg",
+      galleryImages: [
+        {
+          title: "Hà Nội 19/8/1945",
+          caption: "Đoàn người biểu tình ngày 19/8/1945 trước cửa Bắc Bộ Phủ (Hà Nội).",
+          pathHint: "public/images/session10/ha-noi.jpg",
+        },
+        {
+          title: "Nhà hát Lớn 19/8/1945",
+          caption: "Cuộc mít tinh tại quảng trường Nhà hát Lớn ngày 19/8/1945.",
+          pathHint: "public/images/session10/nha-hat-lon.jpg",
+        },
+        {
+          title: "Cuộc mít tinh lịch sử",
+          caption: "Ngày 19/8/1945, cả Thủ đô ngập tràn cờ đỏ sao vàng. Hàng chục vạn người dân ở Hà Nội và các tỉnh lân cận theo các ngả đường kéo về quảng trường Nhà hát lớn Hà Nội dự cuộc mít tinh lớn chưa từng có của quần chúng cách mạng, hưởng ứng cuộc Tổng khởi nghĩa giành chính quyền. (Ảnh: Tư liệu TTXVN).",
+          pathHint: "public/images/session10/mit-tinh.jpg",
+        },
+      ],
     },
     {
       title: "Huế giành chính quyền",
@@ -450,9 +513,18 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Thắng lợi ở Huế cho thấy Tổng khởi nghĩa không chỉ giành cơ quan hành chính, mà còn làm sụp đổ nền tảng chính trị biểu tượng của chế độ cũ.",
-      imageTitle: "Huế 23/8/1945",
-      imageCaption: "Tư liệu về sự chuyển giao quyền lực ở kinh đô Huế.",
-      imageHint: "public/images/session10/hue-23-8.jpg",
+      galleryImages: [
+        {
+          title: "Huế 23/8/1945",
+          caption: "Nhân dân Thừa Thiên-Huế tham gia giành chính quyền và kéo vào cửa Thượng Tứ ngày 23/8/1945, ngày cách mạng thắng lợi tại Huế. (Ảnh: Tư liệu TTXVN).",
+          pathHint: "public/images/session10/hue-1.jpg",
+        },
+        {
+          title: "Nhân dân Thừa Thiên-Huế 23/8/1945",
+          caption: "Chiều 23/8/1945, hàng vạn người dân Huế và các lực lượng kéo về sân vận động Huế. (Ảnh tư liệu/VOV).",
+          pathHint: "public/images/session10/hue-2.jpg",
+        },
+      ],
     },
     {
       title: "Sài Gòn giành chính quyền",
@@ -471,9 +543,28 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Thắng lợi ở Sài Gòn làm rõ tính toàn quốc của Cách mạng Tháng Tám: từ Bắc vào Nam, chính quyền lần lượt về tay nhân dân.",
-      imageTitle: "Sài Gòn 25/8/1945",
-      imageCaption: "Tư liệu về phong trào Nam Bộ trong cao trào Tổng khởi nghĩa.",
-      imageHint: "public/images/session10/sai-gon-25-8.jpg",
+      galleryImages: [
+        {
+          title: "Đồng bào Sài Gòn 25/8/1945",
+          caption: "Đồng bào Sài Gòn hưởng ứng Lời kêu gọi Tổng khởi nghĩa của Trung ương Đảng và Chủ tịch Hồ Chí Minh. (Ảnh: Tư liệu TTXVN)",
+          pathHint: "public/images/session10/sai-gon.jpg",
+        },
+        {
+          title: "Địa điểm bàn về Cách mạng Tháng Tám",
+          caption: "Nhà ông Chung Văn Năm - Ấp 5, xã Đa Phước, huyện Bình Chánh, nơi đồng chí Trần Văn Giàu cùng các đồng chí vượt ngục Tà Lài về bàn kế hoạch chuẩn bị cho Cách mạng tháng Tám năm 1945.",
+          pathHint: "public/images/session10/saigon-2.jpg",
+        },
+        {
+          title: "Mặt trận Việt Minh được công khai",
+          caption: "Rạp Nguyễn Văn Hảo (nay là Nhà hát Kịch Thành phố Hồ Chí Minh, đường Trần Hưng Đạo, Quận 1), nơi Mặt trận Việt Minh ra mắt công khai ngày 20/8/1945.",
+          pathHint: "public/images/session10/sai-gon3.jpg",
+        },
+        {
+          title: "Nhân dân & Vũ khí",
+          caption: "Nhân dân với tầm vông vạt nhọn kéo vào nội thành tham gia Tổng khởi nghĩa ở Sài Gòn, ngày 25/8/1945.",
+          pathHint: "public/images/session10/sai-gon4.jpg",
+        },
+      ],
     },
     {
       title: "Tuyên ngôn Độc lập tại Ba Đình",
@@ -492,9 +583,13 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Mốc Ba Đình khép lại chặng giành chính quyền và mở ra chặng giữ chính quyền: độc lập đã được tuyên bố, nhưng còn phải được bảo vệ bằng chính sách và thực lực.",
-      imageTitle: "Ba Đình 2/9/1945",
-      imageCaption: "Tư liệu về Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập.",
-      imageHint: "public/images/session10/ba-dinh-2-9.jpg",
+      galleryImages: [
+        {
+          title: "Ba Đình 2/9/1945",
+          caption: "Tư liệu về Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập.",
+          pathHint: "public/images/session10/ba-dinh-2-9-1945.jpg",
+        },
+      ],
     },
   ],
   session11: [
@@ -515,9 +610,13 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Mốc này chuyển trọng tâm từ 'giành' sang 'giữ': thắng lợi Cách mạng Tháng Tám chỉ bền vững nếu chính quyền mới đứng vững trước thử thách.",
-      imageTitle: "Diệt giặc đói, giặc dốt",
-      imageCaption: "Tư liệu về bình dân học vụ, tăng gia sản xuất và cứu đói.",
-      imageHint: "public/images/session11/giac-doi-giac-dot.jpg",
+      galleryImages: [
+        {
+          title: "Kháng chiến kiến quốc",
+          caption: "Chủ tịch Hồ Chí Minh lãnh đạo kháng chiến, kiến quốc tại Văn phòng Chính phủ.",
+          pathHint: "public/images/session11/kc.jpg",
+        },
+      ],
     },
     {
       title: "Tổng tuyển cử bầu Quốc hội đầu tiên",
@@ -536,9 +635,33 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Tổng tuyển cử giúp chính quyền cách mạng không chỉ có sức mạnh khởi nghĩa, mà còn có chính danh nhà nước để tiếp tục lãnh đạo đất nước.",
-      imageTitle: "Tổng tuyển cử 6/1/1946",
-      imageCaption: "Tư liệu về cử tri đi bỏ phiếu và xây dựng nhà nước dân chủ mới.",
-      imageHint: "public/images/session11/tong-tuyen-cu.jpg",
+      galleryImages: [
+        {
+          title: "Tổng tuyển cử 6/1/1946",
+          caption: "Người dân đón mừng Chủ tịch Hồ Chí Minh và các vị được giới thiệu ứng cử Đại biểu Quốc hội tại Hà Nội ngày 05/01/1946. Ảnh tư liệu.",
+          pathHint: "public/images/session11/tc.jpg",
+        },
+        {
+          title: "Nhân dân đi bầu cử",
+          caption: "Nhân dân lao động Thủ đô cổ động cho ngày Tổng tuyển cử đầu tiên. Ảnh tư liệu.",
+          pathHint: "public/images/session11/tc1.jpg",
+        },
+        {
+          title: "Lời kêu gọi của Bác",
+          caption: "Lời kêu gọi đi bầu cử của Chủ tịch Hồ Chí Minh. ",
+          pathHint: "public/images/session11/tc2.jpg",
+        },
+        {
+          title: "Số báo đặc biệt",
+          caption: "Số đặc biệt của Báo Quốc hội ra trong ngày Tổng tuyển cử.",
+          pathHint: "public/images/session11/tc3.jpg",
+        },
+        {
+          title: "Hình ảnh toàn thể",
+          caption: "Sau tổng tuyển cử, nhân dân bầu ra 333 đại biểu Quốc hội trong số hàng nghìn người ứng cử và đề cử. Trong đó, Bắc Bộ có 152 người, Trung Bộ 108 và Nam Bộ 73. Có 10 đại biểu nữ. Ảnh Tư liệu.",
+          pathHint: "public/images/session11/tc4.jpg",
+        },
+      ],
     },
     {
       title: "Hiệp định Sơ bộ Việt - Pháp",
@@ -557,9 +680,18 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Mốc này cho thấy bảo vệ thắng lợi không chỉ bằng đấu tranh vũ trang, mà còn bằng ngoại giao, thời gian và khả năng phân hóa đối phương.",
-      imageTitle: "Ngoại giao 1946",
-      imageCaption: "Tư liệu về sách lược hòa hoãn để chuẩn bị thực lực.",
-      imageHint: "public/images/session11/ngoai-giao-1946.jpg",
+      galleryImages: [
+        {
+          title: "Bác Hồ và các đại biểu",
+          caption: "Chủ tịch Hồ Chí Minh và các đại biểu Anh, Mỹ, Trung Quốc tại lễ ký kết Hiệp định Sơ bộ ngày 6/3/1946. (Nguồn: Bảo tàng Hồ Chí Minh, chi nhánh TPHCM).",
+          pathHint: "public/images/session11/hd.jpg",
+        },
+        {
+          title: "Hiệp định Sơ bộ 1946",
+          caption: "Hiệp định Sơ bộ ngày 6/3/1946. (Nguồn: Bảo tàng Hồ Chí Minh, chi nhánh TPHCM).",
+          pathHint: "public/images/session11/hd1.jpg",
+        },
+      ],
     },
     {
       title: "Tạm ước Việt - Pháp",
@@ -578,9 +710,13 @@ const sessionEventDetails: Record<string, SessionEventDetailSeed[]> = {
       ],
       result:
         "Tạm ước thể hiện bài học lớn của giai đoạn 1945-1946: muốn giữ độc lập phải biết kết hợp chính trị, ngoại giao, quân sự và chuẩn bị lâu dài.",
-      imageTitle: "Ngoại giao 1946",
-      imageCaption: "Tư liệu về sách lược hòa hoãn để chuẩn bị thực lực.",
-      imageHint: "public/images/session11/ngoai-giao-1946.jpg",
+      galleryImages: [
+        {
+          title: "Tạm ước Việt - Pháp",
+          caption: "Chủ tịch Hồ Chí Minh và Bộ trưởng Marius Moutet ký Tạm ước về quan hệ Việt Nam - Pháp tại Paris ngày 14/9/1946 (Nguồn: Ảnh tư liệu).",
+          pathHint: "public/images/session11/kk.jpg",
+        },
+      ],
     },
   ],
 };
@@ -590,12 +726,32 @@ function getSessionEventDetail(session: SessionBlock, event: string, index: numb
   const slot = session.imageSlots[index % session.imageSlots.length];
 
   if (detail) {
+    const fallbackPrimaryImage = {
+      title: detail.imageTitle || detail.title,
+      caption: detail.imageCaption || "Hình ảnh minh họa cho mốc sự kiện này.",
+      pathHint: detail.imageHint,
+      src: detail.imageSrc || imageHintToPublicSrc(detail.imageHint),
+    };
+    const galleryImages = buildSessionEventGallery(fallbackPrimaryImage, detail.galleryImages);
+    const primaryImage = galleryImages[0] || fallbackPrimaryImage;
+
     return {
       event,
       ...detail,
-      imageSrc: detail.imageSrc || session.heroImage,
+      imageTitle: primaryImage.title,
+      imageCaption: primaryImage.caption,
+      imageHint: primaryImage.pathHint || "",
+      imageSrc: primaryImage.src,
+      galleryImages,
     };
   }
+
+  const fallbackImage = {
+    title: slot?.title || "Tư liệu sự kiện",
+    caption: slot?.caption || "Hình ảnh minh họa cho mốc sự kiện này.",
+    pathHint: slot?.pathHint || "public/images/phases/prepare-bg.png",
+    src: slot?.src || imageHintToPublicSrc(slot?.pathHint),
+  };
 
   return {
     event,
@@ -605,11 +761,35 @@ function getSessionEventDetail(session: SessionBlock, event: string, index: numb
     methodTitle: "Cách thực hiện",
     methods: session.outcomes.slice(0, 3),
     result: "Mốc này nằm trong mạch chính của giai đoạn và cần được liên hệ với mục tiêu học của phần này.",
-    imageTitle: slot?.title || "Tư liệu sự kiện",
-    imageCaption: slot?.caption || "Hình ảnh minh họa cho mốc sự kiện này.",
-    imageHint: slot?.pathHint || "public/images/session-tu-lieu.jpg",
-    imageSrc: slot?.src || session.heroImage,
+    imageTitle: fallbackImage.title,
+    imageCaption: fallbackImage.caption,
+    imageHint: fallbackImage.pathHint,
+    imageSrc: fallbackImage.src,
+    galleryImages: buildSessionEventGallery(fallbackImage),
   };
+}
+
+function imageHintToPublicSrc(imageHint?: string) {
+  return imageHint?.replace(/^public\//, "/");
+}
+
+function buildSessionEventGallery(
+  primaryImage: SessionEventImage,
+  eventImages: SessionEventImage[] = [],
+) {
+  const images = eventImages.length > 0 ? eventImages : [primaryImage];
+  const seen = new Set<string>();
+
+  return images.reduce<SessionEventImage[]>((gallery, image) => {
+    const src = image.src || imageHintToPublicSrc(image.pathHint);
+    const key = src || image.pathHint || image.title;
+
+    if (!key || seen.has(key)) return gallery;
+
+    seen.add(key);
+    gallery.push({ ...image, src });
+    return gallery;
+  }, []);
 }
 
 const uprisingEvents: UprisingEvent[] = [
@@ -637,7 +817,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Đây là nền móng của toàn bộ Tổng khởi nghĩa. Nếu không có chuyển hướng chiến lược sớm, các mốc sau như Việt Minh, cao trào kháng Nhật và Tân Trào sẽ thiếu đường lối thống nhất.",
     session: "Session 8",
-    imageHint: "public/images/session8/can-cu-viet-bac.jpg",
+    imageHint: "public/images/session8/strategy-shift-1939.jpg",
   },
   {
     id: "viet-minh",
@@ -663,7 +843,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Việt Minh biến lòng yêu nước thành sức mạnh có tổ chức. Đây là lực lượng chính trị nòng cốt để khi thời cơ đến, quần chúng có thể nổi dậy đồng loạt.",
     session: "Session 8",
-    imageHint: "public/images/session8/viet-minh.jpg",
+    imageHint: "public/images/session8/viet-minh-1941.jpg",
   },
   {
     id: "nhat-dao-chinh",
@@ -689,7 +869,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Mốc này mở ra tình thế tiền khởi nghĩa. Đảng phải phản ứng rất nhanh, vì chỉ cần chậm nhịp là thời cơ có thể trôi qua hoặc bị lực lượng khác chiếm mất.",
     session: "Session 9",
-    imageHint: "public/images/session9/nhat-dao-chinh-phap.jpg",
+    imageHint: "public/images/session9/dau-hang.jpg",
   },
   {
     id: "chi-thi-12-3",
@@ -715,7 +895,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Chỉ thị 12/3 là bước nối giữa chuẩn bị và hành động. Nhờ cao trào này, Tổng khởi nghĩa tháng 8 không xuất hiện đột ngột mà có lực lượng, khí thế và kinh nghiệm quần chúng phía sau.",
     session: "Session 9",
-    imageHint: "public/images/session9/pha-kho-thoc.jpg",
+    imageHint: "public/images/session9/directive-12-3-1945.jpg",
   },
   {
     id: "tan-trao",
@@ -741,7 +921,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Mốc Tân Trào biến thời cơ thành mệnh lệnh hành động. Đây là điểm phát lệnh cho chuỗi thắng lợi Thái Nguyên, Hà Nội, Huế, Sài Gòn và cả nước.",
     session: "Session 9",
-    imageHint: "public/images/route/tan-trao.jpg",
+    imageHint: "public/images/session9/tan-trao-1945.jpg",
   },
   {
     id: "thai-nguyen",
@@ -767,7 +947,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Mốc Thái Nguyên nối căn cứ Tân Trào với các trung tâm chính trị lớn, mở nhịp cho giai đoạn giành chính quyền trong thực tế.",
     session: "Session 10",
-    imageHint: "public/images/route/thai-nguyen.jpg",
+    imageHint: "public/images/session10/thai-nguyen-16-8-1945.jpg",
   },
   {
     id: "ha-noi",
@@ -793,7 +973,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Thắng lợi ở Hà Nội là cú hích quyết định cho toàn quốc. Sau mốc này, nhiều địa phương có thêm niềm tin, tốc độ và lý do hành động dứt khoát.",
     session: "Session 10",
-    imageHint: "public/images/route/ha-noi.jpg",
+    imageHint: "public/images/session10/ha-noi.jpg",
   },
   {
     id: "hue",
@@ -819,7 +999,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Huế cho thấy Tổng khởi nghĩa không chỉ chiếm cơ quan hành chính, mà còn làm sụp đổ nền tảng biểu tượng của trật tự chính trị cũ.",
     session: "Session 10",
-    imageHint: "public/images/route/hue.jpg",
+    imageHint: "public/images/session10/hue-23-8-1945.jpg",
   },
   {
     id: "sai-gon",
@@ -845,7 +1025,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Thắng lợi ở Sài Gòn làm rõ tính toàn quốc của Cách mạng Tháng Tám: từ Bắc vào Nam, chính quyền lần lượt về tay nhân dân.",
     session: "Session 10",
-    imageHint: "public/images/route/sai-gon.jpg",
+    imageHint: "public/images/session10/sai-gon-25-8-1945.jpg",
   },
   {
     id: "ba-dinh",
@@ -871,7 +1051,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Ba Đình khép lại chặng giành chính quyền và mở ra chặng giữ chính quyền. Độc lập đã được tuyên bố, nhưng còn phải được bảo vệ bằng chính sách, đoàn kết và thực lực.",
     session: "Session 10",
-    imageHint: "public/images/route/ba-dinh.jpg",
+    imageHint: "public/images/session10/ba-dinh-2-9-1945.jpg",
   },
   {
     id: "kien-quoc",
@@ -897,7 +1077,7 @@ const uprisingEvents: UprisingEvent[] = [
     meaning:
       "Mốc này nhắc rằng Cách mạng Tháng Tám không kết thúc ở việc giành chính quyền. Thắng lợi chỉ bền vững khi nhà nước mới đủ sức nuôi dân, dạy dân, đoàn kết dân và bảo vệ độc lập.",
     session: "Session 11",
-    imageHint: "public/images/route/kien-quoc.jpg",
+    imageHint: "public/images/session11/khang-chien-kien-quoc-1945.jpg",
   },
 ];
 
@@ -1101,32 +1281,6 @@ function Hero({ onOpenChat }: { onOpenChat: () => void }) {
   );
 }
 
-function OverviewBand() {
-  const stats = [
-    { label: "Giai đoạn", value: "4", icon: Layers3 },
-    { label: "Trục học", value: "1940-1946", icon: CalendarDays },
-    { label: "Mạch sự kiện", value: "11 điểm", icon: Route },
-    { label: "Khung ảnh", value: "13 slot", icon: Camera },
-  ];
-
-  return (
-    <section className="bg-stone-950 px-5 py-8 text-white md:px-8">
-      <div className="mx-auto grid max-w-7xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <div key={stat.label} className="border border-white/10 bg-white/[0.04] p-5">
-              <Icon className="h-5 w-5 text-amber-200" />
-              <p className="mt-4 text-3xl font-black">{stat.value}</p>
-              <p className="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{stat.label}</p>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
 function ReviewLab() {
   const [openIndex, setOpenIndex] = useState(0);
 
@@ -1151,11 +1305,10 @@ function ReviewLab() {
                 key={card.question}
                 type="button"
                 onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                className={`min-h-[260px] border p-5 text-left transition ${
-                  isOpen
+                className={`min-h-[260px] border p-5 text-left transition ${isOpen
                     ? "border-red-700 bg-white shadow-sm dark:border-amber-200 dark:bg-white/[0.08]"
                     : "border-stone-200 bg-white/70 hover:border-red-300 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-amber-200/50"
-                }`}
+                  }`}
               >
                 <HelpCircle className="h-6 w-6 text-red-700 dark:text-amber-200" />
                 <p className="mt-4 text-lg font-black leading-tight text-stone-950 dark:text-white">{card.question}</p>
@@ -1173,16 +1326,16 @@ function ReviewLab() {
 
 function LessonFlipbook() {
   return (
-    <section id="flipbook" className="bg-white px-5 py-16 dark:bg-stone-900 md:px-8">
+    <section id="flipbook" className="flipbook-section px-5 py-16 text-white md:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 grid gap-5 md:grid-cols-[0.8fr_1.2fr] md:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.24em] text-red-700 dark:text-amber-200">Flipbook bài học</p>
-            <h2 className="mt-3 text-3xl font-black uppercase leading-tight text-stone-950 dark:text-white md:text-5xl">
+            <p className="text-xs font-black uppercase tracking-[0.24em] text-amber-200">Flipbook bài học</p>
+            <h2 className="mt-3 text-3xl font-black uppercase leading-tight text-white md:text-5xl">
               Sổ tay lật trang
             </h2>
           </div>
-          <p className="text-base leading-7 text-stone-600 dark:text-stone-300">
+          <p className="text-base leading-7 text-stone-200">
             Cuốn sổ tay học tập tương tác giúp tái hiện sinh động tiến trình lịch sử từ chuẩn bị lực lượng đến bảo vệ thành quả Cách mạng Tháng Tám 1945 với đầy đủ hình ảnh tư liệu và âm thanh thuyết minh từng trang.
           </p>
         </div>
@@ -1316,7 +1469,6 @@ export default function App() {
 
       <main>
         <Hero onOpenChat={() => setChatOpen(true)} />
-        <OverviewBand />
         <SessionExplorer sessions={sessions} getSessionEventDetail={getSessionEventDetail} />
         <HistoricalVietnamMap fallback={<UprisingRoute events={uprisingEvents} />} />
         <ReviewLab />
@@ -1338,4 +1490,3 @@ export default function App() {
     </div>
   );
 }
-

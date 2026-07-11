@@ -20,10 +20,16 @@ type LocationDetailModalProps = {
 
 export function LocationDetailModal({ location, totalLocations, onClose }: LocationDetailModalProps) {
   const [activeEventId, setActiveEventId] = useState(location.events[0]?.id ?? "");
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     setActiveEventId(location.events[0]?.id ?? "");
+    setActiveImageIndex(0);
   }, [location.id, location.events]);
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [activeEventId]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -42,15 +48,12 @@ export function LocationDetailModal({ location, totalLocations, onClose }: Locat
   if (!activeEvent) return null;
 
   const phase = phaseById[activeEvent.phaseId];
-  const featuredImage = activeEvent.images[0];
+  const safeImageIndex = activeImageIndex < activeEvent.images.length ? activeImageIndex : 0;
+  const featuredImage = activeEvent.images[safeImageIndex];
   const activeSurfaceClass = getPhaseSurfaceClass(activeEvent.phaseId);
-  const activeEventIndex = Math.max(
-    0,
-    location.events.findIndex((event) => event.id === activeEvent.id),
-  );
-  const selectEventByIndex = (nextIndex: number) => {
-    const wrappedIndex = (nextIndex + location.events.length) % location.events.length;
-    setActiveEventId(location.events[wrappedIndex].id);
+  const selectImageByIndex = (nextIndex: number) => {
+    const wrappedIndex = (nextIndex + activeEvent.images.length) % activeEvent.images.length;
+    setActiveImageIndex(wrappedIndex);
   };
 
   return (
@@ -103,11 +106,11 @@ export function LocationDetailModal({ location, totalLocations, onClose }: Locat
               src={featuredImage.src}
               caption={featuredImage.caption}
               credit={featuredImage.credit}
-              current={activeEventIndex + 1}
-              total={location.events.length}
+              current={safeImageIndex + 1}
+              total={activeEvent.images.length}
               surfaceClass={activeSurfaceClass}
-              onPrev={() => selectEventByIndex(activeEventIndex - 1)}
-              onNext={() => selectEventByIndex(activeEventIndex + 1)}
+              onPrev={() => selectImageByIndex(safeImageIndex - 1)}
+              onNext={() => selectImageByIndex(safeImageIndex + 1)}
             />
           ) : null}
 
@@ -296,7 +299,7 @@ function FeaturedImageSlot({
               type="button"
               onClick={onPrev}
               className="flex h-9 w-9 items-center justify-center border border-white/20 bg-black/65 text-white shadow-lg transition hover:bg-amber-200 hover:text-stone-950"
-              aria-label="Xem mốc trước"
+              aria-label="Xem ảnh trước"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
@@ -304,7 +307,7 @@ function FeaturedImageSlot({
               type="button"
               onClick={onNext}
               className="flex h-9 w-9 items-center justify-center border border-white/20 bg-black/65 text-white shadow-lg transition hover:bg-amber-200 hover:text-stone-950"
-              aria-label="Xem mốc tiếp theo"
+              aria-label="Xem ảnh tiếp theo"
             >
               <ChevronRight className="h-5 w-5" />
             </button>

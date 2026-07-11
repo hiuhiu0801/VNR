@@ -1,9 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "@fontsource/be-vietnam-pro/latin-400.css";
+@import "@fontsource/be-vietnam-pro/vietnamese-400.css";
+@import "@fontsource/be-vietnam-pro/latin-500.css";
+@import "@fontsource/be-vietnam-pro/vietnamese-500.css";
+@import "@fontsource/be-vietnam-pro/latin-600.css";
+@import "@fontsource/be-vietnam-pro/vietnamese-600.css";
+@import "@fontsource/be-vietnam-pro/latin-700.css";
+@import "@fontsource/be-vietnam-pro/vietnamese-700.css";
+@import "@fontsource/be-vietnam-pro/latin-800.css";
+@import "@fontsource/be-vietnam-pro/vietnamese-800.css";
+@import "@fontsource/be-vietnam-pro/latin-900.css";
+@import "@fontsource/be-vietnam-pro/vietnamese-900.css";
+@import "@fontsource/noto-serif/latin-700.css";
+@import "@fontsource/noto-serif/vietnamese-700.css";
+@import "@fontsource/noto-serif/latin-900.css";
+@import "@fontsource/noto-serif/vietnamese-900.css";
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", serif;
+  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Noto Serif", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   --color-background: #fdfcfb;
@@ -53,13 +68,12 @@
 }
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
+    --font-heading: "Noto Serif", Georgia, serif;
+    --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -235,8 +249,29 @@
 }
 
 html {
-  font-family: "Geist Variable", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   text-rendering: geometricPrecision;
+}
+
+.flipbook-section {
+  position: relative;
+  isolation: isolate;
+  background-color: #120f0d;
+  background-image:
+    linear-gradient(90deg, rgba(12, 10, 9, 0.94), rgba(12, 10, 9, 0.76) 48%, rgba(12, 10, 9, 0.9)),
+    url('/images/FooterBG.png');
+  background-position: center;
+  background-size: cover;
+}
+
+.flipbook-section::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-block: 1px solid rgba(253, 230, 138, 0.16);
+  background: rgba(0, 0, 0, 0.12);
+  content: "";
+  pointer-events: none;
 }
 
 body {
@@ -264,32 +299,32 @@ h4[class*="tracking-["] {
 }
 
 .learning-surface {
-  --learning-bg: url("/images/august1945/phase-prepare-bg.png");
+  --learning-bg: url("/images/phases/prepare-bg.png");
   position: relative;
   isolation: isolate;
   background:
     linear-gradient(135deg, rgb(0 0 0 / 74%), rgb(0 0 0 / 46%)),
     var(--learning-bg),
-    url("/images/FooterBG.png");
+    url("/images/phases/prepare-bg.png");
   background-position: center;
   background-size: cover;
 }
 
 .learning-surface--all,
 .learning-surface--prepare {
-  --learning-bg: url("/images/august1945/phase-prepare-bg.png");
+  --learning-bg: url("/images/phases/prepare-bg.png");
 }
 
 .learning-surface--opportunity {
-  --learning-bg: url("/images/august1945/phase-opportunity-bg.jpg");
+  --learning-bg: url("/images/phases/opportunity-bg.jpg");
 }
 
 .learning-surface--uprising {
-  --learning-bg: url("/images/august1945/phase-uprising-bg.jpg");
+  --learning-bg: url("/images/phases/uprising-bg.png");
 }
 
 .learning-surface--protect {
-  --learning-bg: url("/images/august1945/phase-protect-bg.jpg");
+  --learning-bg: url("/images/phases/protect-bg.png");
 }
 
 .learning-surface::before {
@@ -303,7 +338,7 @@ h4[class*="tracking-["] {
 }
 
 .phase-cinematic-section {
-  --phase-bg: url("/images/august1945/phase-prepare-bg.png");
+  --phase-bg: url("/images/phases/prepare-bg.png");
   position: relative;
   isolation: isolate;
   overflow: hidden;
