@@ -66,8 +66,8 @@ export const historicalRoutePoints: HistoricalRoutePoint[] = [
     meaning:
       "Đây là bước ngoặt chiến lược của toàn bộ hành trình. Nếu không có chuyển hướng này, các mốc sau như Việt Minh, cao trào kháng Nhật và Tân Trào sẽ thiếu nền tảng thống nhất.",
     images: [
-      { src: "/images/session8/strategy-shift-1939.jpg", caption: "Không gian gợi nhắc Hội nghị Trung ương tháng 11/1939 tại Bà Điểm.", credit: "Ảnh tư liệu nội bộ" },
-      { src: "/images/session8/viet-minh-1941.jpg", caption: "Pác Bó, nơi Nguyễn Ái Quốc về nước và trực tiếp lãnh đạo cách mạng.", year: "1941", credit: "Ảnh tư liệu nội bộ" },
+      { src: "/images/session8/1939.jpg", caption: "Không gian gợi nhắc Hội nghị Trung ương tháng 11/1939 tại Bà Điểm.", credit: "Ảnh tư liệu nội bộ" },
+      { src: "/images/session8/1941.jpg", caption: "Pác Bó, nơi Nguyễn Ái Quốc về nước và trực tiếp lãnh đạo cách mạng.", year: "1941", credit: "Ảnh tư liệu nội bộ" },
     ],
     sourceNote: "Session 8; textbook full chunks 017-018; theory file trang 3-4.",
   },
@@ -129,7 +129,7 @@ export const historicalRoutePoints: HistoricalRoutePoint[] = [
       "Căn cứ địa Việt Bắc và lực lượng vũ trang là phần thực lực giúp cách mạng không chỉ có khẩu hiệu chính trị mà còn có khả năng hành động khi thời cơ tới.",
     images: [
       { src: "/images/session10/giai-phong.jpg", caption: "Lực lượng vũ trang cách mạng trong thời kỳ xây dựng căn cứ địa.", credit: "Ảnh tư liệu nội bộ" },
-      { src: "/images/session10/thai-nguyen-16-8-1945.jpg", caption: "Đội Việt Nam Tuyên truyền Giải phóng quân.", year: "1944", credit: "Ảnh tư liệu nội bộ" },
+      { src: "/images/session10/gpq.jpg", caption: "Đội Việt Nam Tuyên truyền Giải phóng quân - Chi bộ đầu tiên.", year: "1944", credit: "Ảnh tư liệu nội bộ" },
     ],
     sourceNote: "Session 8 slide 3, 8, 9; textbook full chunks 017-018.",
   },
@@ -215,8 +215,7 @@ export const historicalRoutePoints: HistoricalRoutePoint[] = [
     result: "Chính quyền thân Nhật tê liệt ở nhiều nơi, trận địa cách mạng mở rộng, khí thế khởi nghĩa lan nhanh.",
     meaning: "Cao trào kháng Nhật làm toàn Đảng, toàn dân sẵn sàng bước vào Tổng khởi nghĩa thay vì phải bắt đầu từ con số không.",
     images: [
-      { src: "/images/session10/giai-phong.jpg", caption: "Lực lượng vũ trang và quần chúng trong cao trào kháng Nhật.", year: "1945", credit: "Ảnh tư liệu nội bộ" },
-      { src: "/images/session9/tan-trao-1945.jpg", caption: "Khu giải phóng Việt Bắc, căn cứ địa chính của cách mạng cả nước.", year: "1945", credit: "Ảnh tư liệu nội bộ" },
+      { src: "/images/session10/nhat.jpg", caption: "Lực lượng vũ trang và quần chúng trong cao trào kháng Nhật.", year: "1945", credit: "Ảnh tư liệu nội bộ" },
     ],
     sourceNote: "Session 9 slide 6-7; textbook full chunk 019; theory file trang 5.",
   },
@@ -521,7 +520,6 @@ export const historicalRoutePoints: HistoricalRoutePoint[] = [
       { src: "/images/session11/hiep-dinh-so-bo-1946.jpg", caption: "Tư liệu gợi ý về Hiệp định Sơ bộ Việt - Pháp ngày 6/3/1946.", year: "1946", credit: "Ảnh tư liệu nội bộ" },
       { src: "/images/session11/hd1.jpg", caption: "Văn bản Hiệp định Sơ bộ Việt - Pháp ngày 6/3/1946.", year: "1946", credit: "Ảnh tư liệu nội bộ" },
       { src: "/images/session11/hd.jpg", caption: "Đại diện Việt Nam và Pháp trong quá trình hòa hoãn năm 1946.", year: "1946", credit: "Ảnh tư liệu nội bộ" },
-      { src: "/images/session11/tam-uoc-1946.jpg", caption: "Hoạt động ngoại giao của Chủ tịch Hồ Chí Minh năm 1946.", credit: "Ảnh tư liệu nội bộ" },
       { src: "/images/session11/kk.jpg", caption: "Hoạt động ngoại giao nhằm tranh thủ thời gian chuẩn bị lực lượng.", year: "1946", credit: "Ảnh tư liệu nội bộ" },
     ],
     sourceNote: "Session 11 slide 14-17; textbook full chunks 026-027.",
