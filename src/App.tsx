@@ -1346,29 +1346,40 @@ function LessonFlipbook() {
   );
 }
 
-function DiscussionFrame() {
+function GroupMembersSection() {
   return (
-    <section id="discussion" className="bg-stone-950 px-5 py-16 text-white md:px-8">
+    <section id="members" className="bg-stone-950 px-5 py-16 text-white md:px-8">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
           <div className="mb-5 flex h-12 w-12 items-center justify-center border border-amber-200/30 bg-amber-200/10 text-amber-100">
             <Users className="h-6 w-6" />
           </div>
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-amber-200">Khung mở rộng sau này</p>
-          <h2 className="mt-3 text-3xl font-black uppercase leading-tight md:text-5xl">Dòng thảo luận và tư liệu ngoài</h2>
-          <p className="mt-5 text-base leading-7 text-stone-300">
-            Khu vực này được dựng sẵn để sau này gắn Threads, bài đăng nhóm, timeline xã hội hoặc nguồn ảnh bên thứ ba. Hiện tại chưa gọi API ngoài để tránh phụ thuộc key và quota.
-          </p>
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-amber-200">Thành viên thực hiện</p>
+          <h2 className="mt-3 text-3xl font-black uppercase leading-tight md:text-5xl">Đội ngũ phát triển</h2>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          {["Bài đăng thảo luận", "Tư liệu ảnh", "Câu hỏi nhóm", "Ghi chú giáo viên"].map((title) => (
-            <div key={title} className="border border-white/10 bg-white/[0.05] p-5">
-              <PanelRightOpen className="h-5 w-5 text-amber-200" />
-              <p className="mt-4 text-lg font-black">{title}</p>
-              <p className="mt-2 text-sm leading-6 text-stone-400">
-                Placeholder component. Có thể nối API thật bằng biến môi trường và render nội dung tại đây.
-              </p>
+          {[
+            { name: "Đỗ Trung Hiếu", code: "SE181734" },
+            { name: "Nguyễn Quốc Đoàn", code: "SE180466" },
+            { name: "Nguyễn Thành Ngọc", code: "SE180279" },
+            { name: "Võ Thị Kim Xuyến", code: "SE172582" },
+          ].map((member) => (
+            <div
+              key={member.code}
+              className="group flex items-center gap-4 border border-white/10 bg-white/[0.03] p-5 transition duration-300 hover:border-amber-200/40 hover:bg-white/[0.08]"
+            >
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.05] text-stone-400 group-hover:border-amber-200/30 group-hover:bg-amber-200/10 group-hover:text-amber-100 transition duration-300">
+                <CircleUserRound className="h-6 w-6" />
+              </div>
+              <div>
+                <p className="text-lg font-black tracking-wide text-white group-hover:text-amber-100 transition duration-300">
+                  {member.name}
+                </p>
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-stone-400 mt-1">
+                  MSSV: {member.code}
+                </p>
+              </div>
             </div>
           ))}
         </div>
@@ -1383,6 +1394,7 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [authError, setAuthError] = useState("");
+  const [aiPopupOpen, setAiPopupOpen] = useState(false);
 
   const handleGoogleLogin = async () => {
     setAuthError("");
@@ -1473,7 +1485,7 @@ export default function App() {
         <HistoricalVietnamMap fallback={<UprisingRoute events={uprisingEvents} />} />
         <ReviewLab />
         <LessonFlipbook />
-        <DiscussionFrame />
+        <GroupMembersSection />
       </main>
 
       <footer className="border-t border-stone-200 bg-white px-5 py-8 dark:border-white/10 dark:bg-stone-950 md:px-8">
@@ -1485,6 +1497,82 @@ export default function App() {
           </span>
         </div>
       </footer>
+
+      {/* Nút hiển thị thông tin AI sử dụng */}
+      <button
+        type="button"
+        onClick={() => setAiPopupOpen(true)}
+        className="fixed bottom-24 right-5 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-700 shadow-md transition hover:bg-stone-50 dark:border-white/10 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
+        title="Các công nghệ AI sử dụng trong dự án"
+      >
+        <Sparkles className="h-5 w-5 text-amber-500" />
+      </button>
+
+      {aiPopupOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md border border-stone-200 bg-white p-6 shadow-2xl dark:border-white/10 dark:bg-stone-900 text-stone-950 dark:text-white">
+            <div className="flex items-center justify-between border-b border-stone-200 pb-3 dark:border-white/10">
+              <h3 className="flex items-center gap-2 text-lg font-black uppercase tracking-wider text-red-700 dark:text-amber-200">
+                <Sparkles className="h-5 w-5" />
+                AI Đã Sử Dụng Trong Dự Án
+              </h3>
+              <button
+                type="button"
+                onClick={() => setAiPopupOpen(false)}
+                className="text-stone-400 hover:text-stone-700 dark:hover:text-white transition"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <div className="mt-5 space-y-5 text-sm leading-6">
+              <div className="flex gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                  <span className="font-bold">GP</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-stone-900 dark:text-white">ChatGPT (OpenAI)</h4>
+                  <p className="text-stone-600 dark:text-stone-300 mt-1">
+                    Đồng hành trong suốt quá trình xây dựng mã nguồn React/TypeScript, gỡ lỗi (debug), tối ưu hóa hiệu năng và thiết kế giao diện (UI/UX) cho hệ thống.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                  <span className="font-bold">GE</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-stone-900 dark:text-white">Gemini (Google)</h4>
+                  <p className="text-stone-600 dark:text-stone-300 mt-1">
+                    Đóng vai trò là bộ não cho **Trợ lý CMT8**, cung cấp mô hình ngôn ngữ lớn để trả lời, hội thoại và giải đáp chi tiết các câu hỏi lịch sử của người học.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                  <span className="font-bold">NL</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-stone-900 dark:text-white">NotebookLM (Google)</h4>
+                  <p className="text-stone-600 dark:text-stone-300 mt-1">
+                    Hỗ trợ tổng hợp, nghiên cứu và hệ thống hóa tài liệu lịch sử Đảng từ giáo trình giấy sang cấu trúc dữ liệu RAG và biên soạn hệ thống câu hỏi trắc nghiệm ôn tập.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setAiPopupOpen(false)}
+              className="mt-6 w-full bg-red-700 py-2.5 text-center text-xs font-black uppercase tracking-[0.16em] text-white hover:bg-red-800 transition"
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      )}
 
       <FloatingChat isOpen={chatOpen} setIsOpen={setChatOpen} user={user} onLogin={handleGoogleLogin} />
     </div>
