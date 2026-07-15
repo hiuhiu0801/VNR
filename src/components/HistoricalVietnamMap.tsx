@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import mapboxgl, { type GeoJSONSource, type Map as MapboxMap } from "mapbox-gl";
+import mapboxgl, { type ExpressionSpecification, type GeoJSONSource, type Map as MapboxMap } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { AlertTriangle, ArrowRight, Layers3, MapPinned, Mountain, Route, Sparkles } from "lucide-react";
-import { phaseById, routePhases, sortedHistoricalRoutePoints, vietnamRouteBounds } from "../data/august1945Route";
+import { phaseById, routePhases, sortedHistoricalRoutePoints } from "../data/august1945Route";
+import { vietnamIslandShapes } from "../data/vietnamIslandShapes";
+import { vietnamIslandTerritories, vietnamTerritoryBounds } from "../data/vietnamIslandTerritories";
 import type { HistoricalRoutePoint, RoutePhaseId } from "../types/august1945";
 import { LocationDetailModal, type HistoricalRouteLocationDetail } from "./map/LocationDetailModal";
 
@@ -28,8 +30,8 @@ const initialCamera = {
 };
 
 const vietnamFocusMaxBounds: [[number, number], [number, number]] = [
-  [101.0, 7.0],
-  [111.8, 24.2],
+  [101.0, 6.2],
+  [119.0, 24.2],
 ];
 
 const routeLocations = buildRouteLocations(sortedHistoricalRoutePoints);
@@ -73,6 +75,12 @@ export function HistoricalVietnamMap({ fallback }: HistoricalVietnamMapProps) {
       bearing: initialCamera.bearing,
       maxBounds: vietnamFocusMaxBounds,
       projection: "mercator",
+      language: "vi",
+      locale: {
+        "NavigationControl.ZoomIn": "Phóng to",
+        "NavigationControl.ZoomOut": "Thu nhỏ",
+        "NavigationControl.ResetBearing": "Đặt lại hướng Bắc",
+      },
       attributionControl: true,
     });
 
@@ -109,6 +117,7 @@ export function HistoricalVietnamMap({ fallback }: HistoricalVietnamMapProps) {
 
     map.on("load", () => {
       map.setFog(null);
+      localizeBaseMapLabels(map);
 
       map.addSource("country-boundaries", {
         type: "vector",
@@ -120,7 +129,11 @@ export function HistoricalVietnamMap({ fallback }: HistoricalVietnamMapProps) {
         type: "fill",
         source: "country-boundaries",
         "source-layer": "country_boundaries",
-        filter: ["==", ["get", "iso_3166_1_alpha_3"], "VNM"],
+        filter: [
+          "all",
+          ["==", ["get", "iso_3166_1_alpha_3"], "VNM"],
+          ["any", ["==", ["get", "worldview"], "all"], ["!", ["in", "CN", ["get", "worldview"]]]],
+        ],
         paint: {
           "fill-color": "#f7df72",
           "fill-opacity": 0.08,
@@ -132,11 +145,130 @@ export function HistoricalVietnamMap({ fallback }: HistoricalVietnamMapProps) {
         type: "line",
         source: "country-boundaries",
         "source-layer": "country_boundaries",
-        filter: ["==", ["get", "iso_3166_1_alpha_3"], "VNM"],
+        filter: [
+          "all",
+          ["==", ["get", "iso_3166_1_alpha_3"], "VNM"],
+          ["any", ["==", ["get", "worldview"], "all"], ["!", ["in", "CN", ["get", "worldview"]]]],
+        ],
         paint: {
           "line-color": "#f7df72",
           "line-opacity": 0.55,
           "line-width": ["interpolate", ["linear"], ["zoom"], 4, 1.2, 8, 2.4],
+        },
+      });
+
+      map.addSource("vietnam-island-territories", {
+        type: "geojson",
+        data: vietnamIslandTerritories as MapboxGeoJsonData,
+      });
+
+      map.addSource("vietnam-island-shapes", {
+        type: "geojson",
+        data: vietnamIslandShapes as MapboxGeoJsonData,
+        attribution: 'Hình học đảo: © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+      });
+
+      map.addLayer({
+        id: "vietnam-island-shape-glow",
+        type: "line",
+        source: "vietnam-island-shapes",
+        minzoom: 3.4,
+        maxzoom: 7.2,
+        paint: {
+          "line-color": "#f7df72",
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 3.4, 0.42, 7.2, 0.08],
+          "line-width": ["interpolate", ["linear"], ["zoom"], 3.4, 3.2, 7.2, 2.2],
+          "line-blur": ["interpolate", ["linear"], ["zoom"], 3.4, 1.3, 7.2, 0.6],
+        },
+      });
+
+      map.addLayer({
+        id: "vietnam-island-shape-fill",
+        type: "fill",
+        source: "vietnam-island-shapes",
+        minzoom: 3.4,
+        paint: {
+          "fill-color": "#f7df72",
+          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3.4, 0.5, 6.5, 0.34, 9, 0.52, 12, 0.72],
+          "fill-outline-color": "#fff8d6",
+        },
+      });
+
+      map.addLayer({
+        id: "vietnam-island-shape-outline",
+        type: "line",
+        source: "vietnam-island-shapes",
+        minzoom: 3.4,
+        paint: {
+          "line-color": "#fff1a8",
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 3.4, 0.92, 6.5, 0.72, 9, 0.9],
+          "line-width": ["interpolate", ["linear"], ["zoom"], 3.4, 1.4, 6.5, 1.05, 11, 1.8],
+        },
+      });
+
+      map.addLayer({
+        id: "vietnam-archipelago-label",
+        type: "symbol",
+        source: "vietnam-island-territories",
+        maxzoom: 8.1,
+        filter: ["==", ["get", "role"], "archipelago-label"],
+        layout: {
+          "text-field": ["get", "name"],
+          "text-size": ["interpolate", ["linear"], ["zoom"], 4, 10, 8, 12.5],
+          "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+          "text-anchor": "top",
+          "text-offset": [0, 0.8],
+          "text-line-height": 1.15,
+          "text-letter-spacing": 0.04,
+          "text-allow-overlap": true,
+          "text-ignore-placement": true,
+        },
+        paint: {
+          "text-color": "#fff8d6",
+          "text-halo-color": "#0d0b08",
+          "text-halo-width": 1.5,
+        },
+      });
+
+      map.addLayer({
+        id: "vietnam-offshore-island-label",
+        type: "symbol",
+        source: "vietnam-island-territories",
+        minzoom: 6.3,
+        filter: ["==", ["get", "role"], "offshore-island"],
+        layout: {
+          "text-field": ["get", "name"],
+          "text-size": 10.5,
+          "text-font": ["Open Sans Semibold", "Arial Unicode MS Regular"],
+          "text-anchor": "top",
+          "text-offset": [0, 0.8],
+          "text-optional": true,
+        },
+        paint: {
+          "text-color": "#fff8d6",
+          "text-halo-color": "#0d0b08",
+          "text-halo-width": 1.2,
+        },
+      });
+
+      map.addLayer({
+        id: "vietnam-archipelago-island-label",
+        type: "symbol",
+        source: "vietnam-island-territories",
+        minzoom: 8.2,
+        filter: ["==", ["get", "role"], "archipelago-island"],
+        layout: {
+          "text-field": ["get", "name"],
+          "text-size": 10,
+          "text-font": ["Open Sans Semibold", "Arial Unicode MS Regular"],
+          "text-anchor": "top",
+          "text-offset": [0, 0.8],
+          "text-optional": true,
+        },
+        paint: {
+          "text-color": "#fff8d6",
+          "text-halo-color": "#0d0b08",
+          "text-halo-width": 1.2,
         },
       });
 
@@ -360,7 +492,7 @@ export function HistoricalVietnamMap({ fallback }: HistoricalVietnamMapProps) {
 
             <div className="pointer-events-none absolute bottom-4 left-4 z-10 max-w-xs border border-white/10 bg-black/65 px-3 py-2 text-xs font-semibold leading-5 text-white/70 backdrop-blur">
               <span className="mr-2 inline-block h-2.5 w-2.5 rounded-full border border-white bg-amber-200 align-middle" />
-              Số tròn là địa điểm thật; mỗi popup có thể chứa nhiều mốc cùng vị trí.
+              Số tròn là địa điểm lịch sử; mỗi popup có thể chứa nhiều mốc cùng vị trí.
             </div>
 
             {!mapReady && !mapError && (
@@ -490,6 +622,58 @@ function MapboxFallback({ fallback }: { fallback?: ReactNode }) {
 
 type MapboxGeoJsonData = Parameters<GeoJSONSource["setData"]>[0];
 
+const vietnameseBaseLabelLayerIds = [
+  "waterway-label",
+  "natural-line-label",
+  "natural-point-label",
+  "water-line-label",
+  "water-point-label",
+  "settlement-subdivision-label",
+  "settlement-minor-label",
+  "settlement-major-label",
+  "state-label",
+  "country-label",
+  "continent-label",
+] as const;
+
+const hiddenBaseLayerIds = ["road-label-simple", "poi-label", "airport-label", "admin-0-boundary-disputed"] as const;
+
+const replacedArchipelagoLabels = [
+  "Hoàng Sa",
+  "Quần đảo Hoàng Sa",
+  "Trường Sa",
+  "Quần đảo Trường Sa",
+  "Tam Sa",
+  "Thành phố Tam Sa",
+  "Tây Sa",
+  "Quận Tây Sa",
+  "Nam Sa",
+  "Quận Nam Sa",
+  "Vĩnh Hưng",
+  "Đảo Vĩnh Hưng",
+  "Đảo Phú Lâm",
+];
+
+function localizeBaseMapLabels(map: MapboxMap) {
+  hiddenBaseLayerIds.forEach((layerId) => {
+    if (map.getLayer(layerId)) {
+      map.setLayoutProperty(layerId, "visibility", "none");
+    }
+  });
+
+  const vietnameseTextField: ExpressionSpecification = [
+    "case",
+    ["in", ["coalesce", ["get", "name_vi"], ""], ["literal", replacedArchipelagoLabels]],
+    "",
+    ["coalesce", ["get", "name_vi"], ""],
+  ];
+
+  vietnameseBaseLabelLayerIds.forEach((layerId) => {
+    if (!map.getLayer(layerId)) return;
+    map.setLayoutProperty(layerId, "text-field", vietnameseTextField);
+  });
+}
+
 function buildRouteLocations(points: HistoricalRoutePoint[]): RouteLocation[] {
   const groups = new Map<string, HistoricalRoutePoint[]>();
 
@@ -556,7 +740,7 @@ function locationPlaceForKey(key: string, events: HistoricalRoutePoint[]) {
 }
 
 function fitMapToLocations(map: MapboxMap, locations: RouteLocation[], duration: number) {
-  const bounds = new mapboxgl.LngLatBounds(vietnamRouteBounds[0], vietnamRouteBounds[1]);
+  const bounds = new mapboxgl.LngLatBounds(vietnamTerritoryBounds[0], vietnamTerritoryBounds[1]);
 
   if (locations.length > 0 && locations.length < routeLocations.length) {
     const phaseBounds = new mapboxgl.LngLatBounds(locations[0].coordinates, locations[0].coordinates);
